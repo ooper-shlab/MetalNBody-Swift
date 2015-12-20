@@ -1,0 +1,634 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		364DDD0F1BFD120F00E4E26F /* N-body Object Flow Diagram.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 364DDD0E1BFD120F00E4E26F /* N-body Object Flow Diagram.pdf */; };
+		36E3A2FB1BEA9AE0003B17CD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E3A2FA1BEA9AE0003B17CD /* UIKit.framework */; };
+		36E3A2FD1BEA9AE9003B17CD /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E3A2FC1BEA9AE9003B17CD /* QuartzCore.framework */; };
+		36E3A2FF1BEA9AF2003B17CD /* MetalKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E3A2FE1BEA9AF2003B17CD /* MetalKit.framework */; };
+		36E3A3011BEA9AF9003B17CD /* Metal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E3A3001BEA9AF9003B17CD /* Metal.framework */; };
+		36E3A3031BEA9B07003B17CD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 36E3A3021BEA9B07003B17CD /* Foundation.framework */; };
+		36E3A34C1BEADAC1003B17CD /* NBodyAppPrefs.plist in Resources */ = {isa = PBXBuildFile; fileRef = 36E3A34B1BEADAC1003B17CD /* NBodyAppPrefs.plist */; };
+		36FF36321BE97514009CF055 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 36FF362C1BE97514009CF055 /* Assets.xcassets */; };
+		36FF36331BE97514009CF055 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FF362D1BE97514009CF055 /* LaunchScreen.storyboard */; };
+		36FF36341BE97514009CF055 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 36FF362F1BE97514009CF055 /* Main.storyboard */; };
+		D73E600B1C1BC0CC0080DA17 /* CMTransforms.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E600A1C1BC0CC0080DA17 /* CMTransforms.swift */; };
+		D73E600D1C1BC1020080DA17 /* CM.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E600C1C1BC1020080DA17 /* CM.swift */; };
+		D73E600F1C1BDF330080DA17 /* NBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E600E1C1BDF330080DA17 /* NBody.swift */; };
+		D73E60111C1BDF7C0080DA17 /* NBodyPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60101C1BDF7C0080DA17 /* NBodyPreferences.swift */; };
+		D73E60131C1BE05D0080DA17 /* MetalNBodyRenderPipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60121C1BE05D0080DA17 /* MetalNBodyRenderPipeline.swift */; };
+		D73E60181C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60171C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift */; };
+		D73E60281C1D26F30080DA17 /* MetalNBodySampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60271C1D26F30080DA17 /* MetalNBodySampler.swift */; };
+		D73E602A1C1D29CB0080DA17 /* NBodyDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60291C1D29CB0080DA17 /* NBodyDefaults.swift */; };
+		D73E60301C1D2D520080DA17 /* CFQueueGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E602F1C1D2D520080DA17 /* CFQueueGenerator.swift */; };
+		D73E60321C1D37A30080DA17 /* NBodyProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60311C1D37A30080DA17 /* NBodyProperties.swift */; };
+		D73E60341C1D431A0080DA17 /* CMRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60331C1D431A0080DA17 /* CMRandom.swift */; };
+		D73E60361C1D494C0080DA17 /* GenericArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */; };
+		D73E60381C1D55070080DA17 /* NBodyURDGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */; };
+		D756F1A01C2713A2006C884C /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D756F19F1C2713A1006C884C /* README2.md */; };
+		D7637AFA1C1DA85500F053CC /* MetalNBodyTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AF91C1DA85500F053CC /* MetalNBodyTransform.swift */; };
+		D7637AFC1C1DBBB800F053CC /* MetalNBodyVertexStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFB1C1DBBB800F053CC /* MetalNBodyVertexStage.swift */; };
+		D7637AFE1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFD1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift */; };
+		D7637B001C1EEB1E00F053CC /* MetalNBodyComputeStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFF1C1EEB1E00F053CC /* MetalNBodyComputeStage.swift */; };
+		D7637B041C1EEB9900F053CC /* NBodyVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637B031C1EEB9900F053CC /* NBodyVisualizer.swift */; };
+		D7637B061C1EEBE900F053CC /* AppViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637B051C1EEBE900F053CC /* AppViewController.swift */; };
+		D7637B081C1EEC1F00F053CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637B071C1EEC1F00F053CC /* AppDelegate.swift */; };
+		D779D8551C1D76BA00B3C10B /* CMNumerics.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E602D1C1D2C5C0080DA17 /* CMNumerics.swift */; };
+		D7B3BD171C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B3BD161C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift */; };
+		D7FF04C51C24FD360028F1D6 /* MetalNBodyPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637B011C1EEB6F00F053CC /* MetalNBodyPresenter.swift */; };
+		D7FF04C61C24FD600028F1D6 /* MetalGaussianMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60391C1D6DE30080DA17 /* MetalGaussianMap.swift */; };
+		D7FF04D01C2518680028F1D6 /* NBodyComputePrefs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7FF04CF1C2518680028F1D6 /* NBodyComputePrefs.swift */; };
+		D7FF04D21C251A520028F1D6 /* MetalNbody-Swift.metal in Sources */ = {isa = PBXBuildFile; fileRef = D7FF04D11C251A520028F1D6 /* MetalNbody-Swift.metal */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		364DDD0E1BFD120F00E4E26F /* N-body Object Flow Diagram.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "N-body Object Flow Diagram.pdf"; sourceTree = "<group>"; };
+		36DC12821BE966FA00CA0FEE /* Metal N-Body.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Metal N-Body.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		36E3A2FA1BEA9AE0003B17CD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		36E3A2FC1BEA9AE9003B17CD /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		36E3A2FE1BEA9AF2003B17CD /* MetalKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MetalKit.framework; path = System/Library/Frameworks/MetalKit.framework; sourceTree = SDKROOT; };
+		36E3A3001BEA9AF9003B17CD /* Metal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Metal.framework; path = System/Library/Frameworks/Metal.framework; sourceTree = SDKROOT; };
+		36E3A3021BEA9B07003B17CD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		36E3A34B1BEADAC1003B17CD /* NBodyAppPrefs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = NBodyAppPrefs.plist; sourceTree = "<group>"; };
+		36FF362C1BE97514009CF055 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		36FF362E1BE97514009CF055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		36FF36301BE97514009CF055 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		36FF36311BE97514009CF055 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D73E600A1C1BC0CC0080DA17 /* CMTransforms.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMTransforms.swift; sourceTree = "<group>"; };
+		D73E600C1C1BC1020080DA17 /* CM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CM.swift; sourceTree = "<group>"; };
+		D73E600E1C1BDF330080DA17 /* NBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBody.swift; sourceTree = "<group>"; };
+		D73E60101C1BDF7C0080DA17 /* NBodyPreferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyPreferences.swift; sourceTree = "<group>"; };
+		D73E60121C1BE05D0080DA17 /* MetalNBodyRenderPipeline.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyRenderPipeline.swift; sourceTree = "<group>"; };
+		D73E60171C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyRenderPassDescriptor.swift; sourceTree = "<group>"; };
+		D73E60271C1D26F30080DA17 /* MetalNBodySampler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodySampler.swift; sourceTree = "<group>"; };
+		D73E60291C1D29CB0080DA17 /* NBodyDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyDefaults.swift; sourceTree = "<group>"; };
+		D73E602D1C1D2C5C0080DA17 /* CMNumerics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMNumerics.swift; sourceTree = "<group>"; };
+		D73E602F1C1D2D520080DA17 /* CFQueueGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFQueueGenerator.swift; sourceTree = "<group>"; };
+		D73E60311C1D37A30080DA17 /* NBodyProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyProperties.swift; sourceTree = "<group>"; };
+		D73E60331C1D431A0080DA17 /* CMRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMRandom.swift; sourceTree = "<group>"; };
+		D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericArithmetic.swift; sourceTree = "<group>"; };
+		D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyURDGenerator.swift; sourceTree = "<group>"; };
+		D73E60391C1D6DE30080DA17 /* MetalGaussianMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalGaussianMap.swift; sourceTree = "<group>"; };
+		D756F19F1C2713A1006C884C /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
+		D7637AF91C1DA85500F053CC /* MetalNBodyTransform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyTransform.swift; sourceTree = "<group>"; };
+		D7637AFB1C1DBBB800F053CC /* MetalNBodyVertexStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyVertexStage.swift; sourceTree = "<group>"; };
+		D7637AFD1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyRenderStage.swift; sourceTree = "<group>"; };
+		D7637AFF1C1EEB1E00F053CC /* MetalNBodyComputeStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyComputeStage.swift; sourceTree = "<group>"; };
+		D7637B011C1EEB6F00F053CC /* MetalNBodyPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyPresenter.swift; sourceTree = "<group>"; };
+		D7637B031C1EEB9900F053CC /* NBodyVisualizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyVisualizer.swift; sourceTree = "<group>"; };
+		D7637B051C1EEBE900F053CC /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
+		D7637B071C1EEC1F00F053CC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D7B3BD161C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyFragmentStage.swift; sourceTree = "<group>"; };
+		D7FF04C91C2517080028F1D6 /* NBodyComputePrefs-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NBodyComputePrefs-Swift.h"; sourceTree = "<group>"; };
+		D7FF04CA1C25173B0028F1D6 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
+		D7FF04CB1C25173B0028F1D6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		D7FF04CE1C2517550028F1D6 /* MetalNbody-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MetalNbody-Bridging-Header.h"; sourceTree = "<group>"; };
+		D7FF04CF1C2518680028F1D6 /* NBodyComputePrefs.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyComputePrefs.swift; sourceTree = "<group>"; };
+		D7FF04D11C251A520028F1D6 /* MetalNbody-Swift.metal */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.metal; path = "MetalNbody-Swift.metal"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		36DC127F1BE966FA00CA0FEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36E3A3031BEA9B07003B17CD /* Foundation.framework in Frameworks */,
+				36E3A3011BEA9AF9003B17CD /* Metal.framework in Frameworks */,
+				36E3A2FF1BEA9AF2003B17CD /* MetalKit.framework in Frameworks */,
+				36E3A2FD1BEA9AE9003B17CD /* QuartzCore.framework in Frameworks */,
+				36E3A2FB1BEA9AE0003B17CD /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		366F64521C066E3100ABC28A /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				D73E602F1C1D2D520080DA17 /* CFQueueGenerator.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		36DA5C651BFAC10600C77579 /* Stages */ = {
+			isa = PBXGroup;
+			children = (
+				36DA5C6D1BFAC2D500C77579 /* Shaders */,
+				36DA5C681BFAC16A00C77579 /* Compute */,
+				36DA5C691BFAC17D00C77579 /* Render */,
+				36DA5C6C1BFAC2C500C77579 /* Presenter */,
+			);
+			name = Stages;
+			sourceTree = "<group>";
+		};
+		36DA5C661BFAC12D00C77579 /* Fragment */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60391C1D6DE30080DA17 /* MetalGaussianMap.swift */,
+				D73E60271C1D26F30080DA17 /* MetalNBodySampler.swift */,
+				D7B3BD161C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift */,
+			);
+			name = Fragment;
+			sourceTree = "<group>";
+		};
+		36DA5C671BFAC14E00C77579 /* Vertex */ = {
+			isa = PBXGroup;
+			children = (
+				D7637AF91C1DA85500F053CC /* MetalNBodyTransform.swift */,
+				D7637AFB1C1DBBB800F053CC /* MetalNBodyVertexStage.swift */,
+			);
+			name = Vertex;
+			sourceTree = "<group>";
+		};
+		36DA5C681BFAC16A00C77579 /* Compute */ = {
+			isa = PBXGroup;
+			children = (
+				D7637AFF1C1EEB1E00F053CC /* MetalNBodyComputeStage.swift */,
+			);
+			name = Compute;
+			sourceTree = "<group>";
+		};
+		36DA5C691BFAC17D00C77579 /* Render */ = {
+			isa = PBXGroup;
+			children = (
+				36DA5C671BFAC14E00C77579 /* Vertex */,
+				36DA5C661BFAC12D00C77579 /* Fragment */,
+				36DA5C6A1BFAC24100C77579 /* Descriptor */,
+				36DA5C6B1BFAC29800C77579 /* Pipeline State */,
+				D7637AFD1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift */,
+			);
+			name = Render;
+			sourceTree = "<group>";
+		};
+		36DA5C6A1BFAC24100C77579 /* Descriptor */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60171C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift */,
+			);
+			name = Descriptor;
+			sourceTree = "<group>";
+		};
+		36DA5C6B1BFAC29800C77579 /* Pipeline State */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60121C1BE05D0080DA17 /* MetalNBodyRenderPipeline.swift */,
+			);
+			name = "Pipeline State";
+			sourceTree = "<group>";
+		};
+		36DA5C6C1BFAC2C500C77579 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				D7637B011C1EEB6F00F053CC /* MetalNBodyPresenter.swift */,
+			);
+			name = Presenter;
+			sourceTree = "<group>";
+		};
+		36DA5C6D1BFAC2D500C77579 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				D7FF04D11C251A520028F1D6 /* MetalNbody-Swift.metal */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
+		36DA5C6F1BFAC40100C77579 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				D7FF04CF1C2518680028F1D6 /* NBodyComputePrefs.swift */,
+				D7FF04C91C2517080028F1D6 /* NBodyComputePrefs-Swift.h */,
+				D73E60291C1D29CB0080DA17 /* NBodyDefaults.swift */,
+			);
+			name = Common;
+			sourceTree = "<group>";
+		};
+		36DA5C701BFAC41200C77579 /* Properties */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60101C1BDF7C0080DA17 /* NBodyPreferences.swift */,
+				D73E60311C1D37A30080DA17 /* NBodyProperties.swift */,
+			);
+			name = Properties;
+			sourceTree = "<group>";
+		};
+		36DA5C711BFAC43500C77579 /* Generator */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */,
+			);
+			name = Generator;
+			sourceTree = "<group>";
+		};
+		36DA5C731BFAC4A600C77579 /* Numerics */ = {
+			isa = PBXGroup;
+			children = (
+				D73E602D1C1D2C5C0080DA17 /* CMNumerics.swift */,
+			);
+			name = Numerics;
+			sourceTree = "<group>";
+		};
+		36DA5C741BFAC4B800C77579 /* Random */ = {
+			isa = PBXGroup;
+			children = (
+				D73E60331C1D431A0080DA17 /* CMRandom.swift */,
+			);
+			name = Random;
+			sourceTree = "<group>";
+		};
+		36DA5C751BFAC4C800C77579 /* Transforms */ = {
+			isa = PBXGroup;
+			children = (
+				D73E600A1C1BC0CC0080DA17 /* CMTransforms.swift */,
+			);
+			name = Transforms;
+			sourceTree = "<group>";
+		};
+		36DA5C761BFAC4E000C77579 /* Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				D7637B071C1EEC1F00F053CC /* AppDelegate.swift */,
+			);
+			name = Delegate;
+			sourceTree = "<group>";
+		};
+		36DA5C771BFAC4EE00C77579 /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D7637B051C1EEBE900F053CC /* AppViewController.swift */,
+			);
+			name = "View Controller";
+			sourceTree = "<group>";
+		};
+		36DC12791BE966FA00CA0FEE = {
+			isa = PBXGroup;
+			children = (
+				D7FF04CA1C25173B0028F1D6 /* LICENSE.txt */,
+				D7FF04CB1C25173B0028F1D6 /* README.md */,
+				D756F19F1C2713A1006C884C /* README2.md */,
+				364DDD0E1BFD120F00E4E26F /* N-body Object Flow Diagram.pdf */,
+				36FF36B51BE977CC009CF055 /* Sources */,
+				36E3A3041BEA9B20003B17CD /* Frameworks */,
+				36FF362B1BE97514009CF055 /* Supporting Files */,
+				36DC12831BE966FA00CA0FEE /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		36DC12831BE966FA00CA0FEE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				36DC12821BE966FA00CA0FEE /* Metal N-Body.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		36E3A3041BEA9B20003B17CD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				36E3A3021BEA9B07003B17CD /* Foundation.framework */,
+				36E3A3001BEA9AF9003B17CD /* Metal.framework */,
+				36E3A2FE1BEA9AF2003B17CD /* MetalKit.framework */,
+				36E3A2FC1BEA9AE9003B17CD /* QuartzCore.framework */,
+				36E3A2FA1BEA9AE0003B17CD /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		36FF362B1BE97514009CF055 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				36FF362C1BE97514009CF055 /* Assets.xcassets */,
+				36FF362D1BE97514009CF055 /* LaunchScreen.storyboard */,
+				36FF362F1BE97514009CF055 /* Main.storyboard */,
+				36FF36311BE97514009CF055 /* Info.plist */,
+				36E3A34B1BEADAC1003B17CD /* NBodyAppPrefs.plist */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		36FF36B51BE977CC009CF055 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				D7FF04CE1C2517550028F1D6 /* MetalNbody-Bridging-Header.h */,
+				D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */,
+				36FF36B61BE977CC009CF055 /* App */,
+				366F64521C066E3100ABC28A /* Foundation */,
+				36FF36BC1BE977CC009CF055 /* Math */,
+				36FF371A1BE97AD8009CF055 /* N-body */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		36FF36B61BE977CC009CF055 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				36DA5C761BFAC4E000C77579 /* Delegate */,
+				36DA5C771BFAC4EE00C77579 /* View Controller */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		36FF36BC1BE977CC009CF055 /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				36DA5C731BFAC4A600C77579 /* Numerics */,
+				36DA5C741BFAC4B800C77579 /* Random */,
+				36DA5C751BFAC4C800C77579 /* Transforms */,
+				D73E600C1C1BC1020080DA17 /* CM.swift */,
+			);
+			path = Math;
+			sourceTree = "<group>";
+		};
+		36FF371A1BE97AD8009CF055 /* N-body */ = {
+			isa = PBXGroup;
+			children = (
+				36DA5C6F1BFAC40100C77579 /* Common */,
+				36DA5C651BFAC10600C77579 /* Stages */,
+				36DA5C701BFAC41200C77579 /* Properties */,
+				36DA5C711BFAC43500C77579 /* Generator */,
+				D7637B031C1EEB9900F053CC /* NBodyVisualizer.swift */,
+				D73E600E1C1BDF330080DA17 /* NBody.swift */,
+			);
+			path = "N-body";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		36DC12811BE966FA00CA0FEE /* Metal N-Body */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 36DC129C1BE966FA00CA0FEE /* Build configuration list for PBXNativeTarget "Metal N-Body" */;
+			buildPhases = (
+				36DC127E1BE966FA00CA0FEE /* Sources */,
+				36DC127F1BE966FA00CA0FEE /* Frameworks */,
+				36DC12801BE966FA00CA0FEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Metal N-Body";
+			productName = SampleGame;
+			productReference = 36DC12821BE966FA00CA0FEE /* Metal N-Body.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		36DC127A1BE966FA00CA0FEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Babak Mahbod";
+				TargetAttributes = {
+					36DC12811BE966FA00CA0FEE = {
+						CreatedOnToolsVersion = 7.1;
+					};
+				};
+			};
+			buildConfigurationList = 36DC127D1BE966FA00CA0FEE /* Build configuration list for PBXProject "Metal N-Body" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 36DC12791BE966FA00CA0FEE;
+			productRefGroup = 36DC12831BE966FA00CA0FEE /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				36DC12811BE966FA00CA0FEE /* Metal N-Body */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		36DC12801BE966FA00CA0FEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				36FF36321BE97514009CF055 /* Assets.xcassets in Resources */,
+				36E3A34C1BEADAC1003B17CD /* NBodyAppPrefs.plist in Resources */,
+				364DDD0F1BFD120F00E4E26F /* N-body Object Flow Diagram.pdf in Resources */,
+				36FF36341BE97514009CF055 /* Main.storyboard in Resources */,
+				36FF36331BE97514009CF055 /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		36DC127E1BE966FA00CA0FEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D7FF04D21C251A520028F1D6 /* MetalNbody-Swift.metal in Sources */,
+				D73E60381C1D55070080DA17 /* NBodyURDGenerator.swift in Sources */,
+				D73E60131C1BE05D0080DA17 /* MetalNBodyRenderPipeline.swift in Sources */,
+				D7637B041C1EEB9900F053CC /* NBodyVisualizer.swift in Sources */,
+				D7637B081C1EEC1F00F053CC /* AppDelegate.swift in Sources */,
+				D73E60301C1D2D520080DA17 /* CFQueueGenerator.swift in Sources */,
+				D73E60281C1D26F30080DA17 /* MetalNBodySampler.swift in Sources */,
+				D7637B001C1EEB1E00F053CC /* MetalNBodyComputeStage.swift in Sources */,
+				D756F1A01C2713A2006C884C /* README2.md in Sources */,
+				D73E60181C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift in Sources */,
+				D73E60321C1D37A30080DA17 /* NBodyProperties.swift in Sources */,
+				D7637B061C1EEBE900F053CC /* AppViewController.swift in Sources */,
+				D7FF04D01C2518680028F1D6 /* NBodyComputePrefs.swift in Sources */,
+				D7637AFE1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift in Sources */,
+				D7637AFC1C1DBBB800F053CC /* MetalNBodyVertexStage.swift in Sources */,
+				D779D8551C1D76BA00B3C10B /* CMNumerics.swift in Sources */,
+				D7B3BD171C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift in Sources */,
+				D73E60341C1D431A0080DA17 /* CMRandom.swift in Sources */,
+				D73E600D1C1BC1020080DA17 /* CM.swift in Sources */,
+				D73E60361C1D494C0080DA17 /* GenericArithmetic.swift in Sources */,
+				D73E602A1C1D29CB0080DA17 /* NBodyDefaults.swift in Sources */,
+				D7FF04C51C24FD360028F1D6 /* MetalNBodyPresenter.swift in Sources */,
+				D73E60111C1BDF7C0080DA17 /* NBodyPreferences.swift in Sources */,
+				D7FF04C61C24FD600028F1D6 /* MetalGaussianMap.swift in Sources */,
+				D73E600F1C1BDF330080DA17 /* NBody.swift in Sources */,
+				D73E600B1C1BC0CC0080DA17 /* CMTransforms.swift in Sources */,
+				D7637AFA1C1DA85500F053CC /* MetalNBodyTransform.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		36FF362D1BE97514009CF055 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				36FF362E1BE97514009CF055 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		36FF362F1BE97514009CF055 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				36FF36301BE97514009CF055 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		36DC129A1BE966FA00CA0FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LINKER_DISPLAYS_MANGLED_NAMES = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_FAST_MATH = YES;
+				MTL_LANGUAGE_REVISION = Metal11;
+				MTL_OPTIMIZATION_LEVEL = 0;
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				STRIP_INSTALLED_PRODUCT = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		36DC129B1BE966FA00CA0FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = c11;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_SYMBOLS_PRIVATE_EXTERN = YES;
+				GCC_UNROLL_LOOPS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LLVM_LTO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				MTL_LANGUAGE_REVISION = Metal11;
+				MTL_OPTIMIZATION_LEVEL = 3;
+				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		36DC129D1BE966FA00CA0FEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.sample.N-body";
+				PRODUCT_NAME = "Metal N-Body";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/MetalNbody-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		36DC129E1BE966FA00CA0FEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.apple.sample.N-body";
+				PRODUCT_NAME = "Metal N-Body";
+				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Sources/MetalNbody-Bridging-Header.h";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		36DC127D1BE966FA00CA0FEE /* Build configuration list for PBXProject "Metal N-Body" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36DC129A1BE966FA00CA0FEE /* Debug */,
+				36DC129B1BE966FA00CA0FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		36DC129C1BE966FA00CA0FEE /* Build configuration list for PBXNativeTarget "Metal N-Body" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				36DC129D1BE966FA00CA0FEE /* Debug */,
+				36DC129E1BE966FA00CA0FEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 36DC127A1BE966FA00CA0FEE /* Project object */;
+}
