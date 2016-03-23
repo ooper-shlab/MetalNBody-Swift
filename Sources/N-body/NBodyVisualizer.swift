@@ -215,7 +215,7 @@ class NBodyVisualizer: NSObject {
     
     // Go to a new frame
     private func _nextFrame() {
-        frame++
+        frame += 1
         
         isComplete = (frame % _frames) == 0
         

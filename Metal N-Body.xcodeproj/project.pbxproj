@@ -30,7 +30,6 @@
 		D73E60341C1D431A0080DA17 /* CMRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60331C1D431A0080DA17 /* CMRandom.swift */; };
 		D73E60361C1D494C0080DA17 /* GenericArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */; };
 		D73E60381C1D55070080DA17 /* NBodyURDGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */; };
-		D756F1A01C2713A2006C884C /* README2.md in Sources */ = {isa = PBXBuildFile; fileRef = D756F19F1C2713A1006C884C /* README2.md */; };
 		D7637AFA1C1DA85500F053CC /* MetalNBodyTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AF91C1DA85500F053CC /* MetalNBodyTransform.swift */; };
 		D7637AFC1C1DBBB800F053CC /* MetalNBodyVertexStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFB1C1DBBB800F053CC /* MetalNBodyVertexStage.swift */; };
 		D7637AFE1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFD1C1E1D1E00F053CC /* MetalNBodyRenderStage.swift */; };
@@ -438,7 +437,6 @@
 				D73E60301C1D2D520080DA17 /* CFQueueGenerator.swift in Sources */,
 				D73E60281C1D26F30080DA17 /* MetalNBodySampler.swift in Sources */,
 				D7637B001C1EEB1E00F053CC /* MetalNBodyComputeStage.swift in Sources */,
-				D756F1A01C2713A2006C884C /* README2.md in Sources */,
 				D73E60181C1C12790080DA17 /* MetalNBodyRenderPassDescriptor.swift in Sources */,
 				D73E60321C1D37A30080DA17 /* NBodyProperties.swift in Sources */,
 				D7637B061C1EEBE900F053CC /* AppViewController.swift in Sources */,
