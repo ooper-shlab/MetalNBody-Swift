@@ -63,8 +63,6 @@ class MetalNBodyTransform: NSObject {
     var center: Float = 0.0
     var zCenter: Float = 0.0
     
-    private var _transform: matrix_float4x4 = matrix_float4x4()
-    
     private var mpTransform: UnsafeMutablePointer<matrix_float4x4> = nil
     
     private var m_View: matrix_float4x4 = matrix_float4x4()
@@ -83,7 +81,7 @@ class MetalNBodyTransform: NSObject {
         center     = NBody.Defaults.kCenter
         zCenter    = NBody.Defaults.kZCenter
         bounds = kOrth2DBounds[_config.rawValue]
-        _transform  = matrix_float4x4()
+        transform  = matrix_float4x4()
         
         let rotate1   = CM.rotate(0, 0.0, 1.0, 0.0)
         let rotate2   = CM.rotate(0, 1.0, 1.0, 1.0)
@@ -120,10 +118,10 @@ class MetalNBodyTransform: NSObject {
         get {return _update}
         set {
             if newValue {
-                _transform = m_Projection * m_View
-                mpTransform.memory = _transform
+                transform = m_Projection * m_View
+                mpTransform.memory = transform
                 
-                _update = update
+                _update = newValue
             }
         }
     }
