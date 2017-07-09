@@ -30,7 +30,7 @@ class MetalNBodyVertexStage: NSObject {
     private var _particles: Int = 0
     
     // Orthographic projection configuration type
-    private var _config: NBody.Defaults.Configs = .Random
+    private var _config: NBody.Defaults.Configs = .random
     
     // Aspect ratio
     private var _aspect: Float = 0.0
@@ -51,7 +51,7 @@ class MetalNBodyVertexStage: NSObject {
     private(set) var function: MTLFunction?
     
     // Point particle colors
-    private(set) var colors: UnsafeMutablePointer<float4> = nil
+    private(set) var colors: UnsafeMutablePointer<float4>? = nil
     
     // Generate all the necessary vertex stage resources using a default system device
     private var _device: MTLDevice?
@@ -73,7 +73,7 @@ class MetalNBodyVertexStage: NSObject {
     private var mnParticles: Int = 0
     
     private var mnPointSz: Float = 0.0
-    private var mpPointSz: UnsafeMutablePointer<Float> = nil
+    private var mpPointSz: UnsafeMutablePointer<Float>? = nil
     
     private var mpTransform: MetalNBodyTransform?
     
@@ -112,7 +112,7 @@ class MetalNBodyVertexStage: NSObject {
         get {return _pointSz}
         set {
             if mpPointSz != nil {
-                mpPointSz.memory = CM.isLT(newValue, mnPointSz) ? mnPointSz : newValue
+                mpPointSz?.pointee = CM.isLT(newValue, mnPointSz) ? mnPointSz : newValue
             }
         }
     }
@@ -141,7 +141,7 @@ class MetalNBodyVertexStage: NSObject {
         }
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -153,7 +153,7 @@ class MetalNBodyVertexStage: NSObject {
             return false
         }
         
-        function = library.newFunctionWithName(name ?? "NBodyLightingVertex")
+        function = library.makeFunction(name: name ?? "NBodyLightingVertex")
         
         guard let _ = function else {
             NSLog(">> ERROR: Failed to instantiate vertex function!")
@@ -161,10 +161,10 @@ class MetalNBodyVertexStage: NSObject {
             return false
         }
         
-        let m_Colors = device.newBufferWithLength(sizeof(float4)*mnParticles, options: [])
+        let m_Colors = device.makeBuffer(length: MemoryLayout<float4>.size*mnParticles, options: [])
         self.m_Colors = m_Colors
         
-        colors = UnsafeMutablePointer(m_Colors.contents())
+        colors = UnsafeMutableRawPointer(m_Colors.contents()).assumingMemoryBound(to: float4.self)
         
         guard colors != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer for m_Colors buffer!")
@@ -172,10 +172,10 @@ class MetalNBodyVertexStage: NSObject {
             return false
         }
         
-        let m_PointSz = device.newBufferWithLength(sizeof(Float), options: [])
+        let m_PointSz = device.makeBuffer(length: MemoryLayout<Float>.size, options: [])
         self.m_PointSz = m_PointSz
         
-        mpPointSz = UnsafeMutablePointer(m_PointSz.contents())
+        mpPointSz = UnsafeMutableRawPointer(m_PointSz.contents()).assumingMemoryBound(to: Float.self)
         
         guard mpPointSz != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer for buffer representing m_PointSz size!")
@@ -199,19 +199,19 @@ class MetalNBodyVertexStage: NSObject {
     }
     
     // Generate all the necessary vertex stage resources using a default system device
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !isStaged {
             isStaged = self._acquire(device)
         }
     }
     
     // Encode the buffers for the vertex stage
-    private func encode(cmdEncoder: MTLRenderCommandEncoder?) {
+    private func encode(_ cmdEncoder: MTLRenderCommandEncoder?) {
         if let positions = positions {
-            cmdEncoder?.setVertexBuffer(positions, offset: 0, atIndex: 0)
-            cmdEncoder?.setVertexBuffer(m_Colors, offset: 0, atIndex: 1)
-            cmdEncoder?.setVertexBuffer(mpTransform?.buffer, offset: 0, atIndex: 2)
-            cmdEncoder?.setVertexBuffer(m_PointSz, offset: 0, atIndex: 3)
+            cmdEncoder?.setVertexBuffer(positions, offset: 0, at: 0)
+            cmdEncoder?.setVertexBuffer(m_Colors, offset: 0, at: 1)
+            cmdEncoder?.setVertexBuffer(mpTransform?.buffer, offset: 0, at: 2)
+            cmdEncoder?.setVertexBuffer(m_PointSz, offset: 0, at: 3)
         }
     }
     

@@ -20,11 +20,11 @@ class CFQueueGenerator: NSObject {
     
     // Desired dispatch queue attribute.  Defaults to serial.
     // Desired dispatch queue attribute.
-    var attribute: dispatch_queue_attr_t?
+    var attribute: DispatchQueue.Attributes?
     
     // Dispatch queue identifier
     // Dispatch queue id.
-    private var mnQID: NSUUID?
+    private var mnQID: UUID?
     
     // Dispatch queue label
     // Dispatch queue label.
@@ -40,7 +40,7 @@ class CFQueueGenerator: NSObject {
         m_Label = ""
         
         // Default dispatch queue attribute is for a serial queue.
-        attribute = DISPATCH_QUEUE_SERIAL
+        attribute = DispatchQueue.Attributes()
         super.init()
         
     }
@@ -60,10 +60,10 @@ class CFQueueGenerator: NSObject {
     
     // A dispatch queue created with the set attribute.
     // Defaults to a serial dispatch queue.
-    var queue: dispatch_queue_t? {
-        mnQID = NSUUID()
+    var queue: DispatchQueue? {
+        mnQID = UUID()
         
-        let sqid = mnQID!.UUIDString
+        let sqid = mnQID!.uuidString
         
         if m_Label.isEmpty {
             m_SQID = sqid
@@ -71,7 +71,7 @@ class CFQueueGenerator: NSObject {
             m_SQID = "\(m_Label).\(sqid)"
         }
         
-        return dispatch_queue_create(m_SQID, attribute)
+        return DispatchQueue(label: m_SQID, attributes: attribute!)
     }
     
 }

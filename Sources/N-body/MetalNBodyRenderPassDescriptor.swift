@@ -47,8 +47,8 @@ class MetalNBodyRenderPassDescriptor: NSObject {
     
     override init() {
         
-        load        = MTLLoadAction.Clear
-        store       = MTLStoreAction.Store
+        load        = MTLLoadAction.clear
+        store       = MTLStoreAction.store
         _color       = MTLClearColorMake(0.0, 0.0, 0.0, 0.0)
         haveTexture = false
         super.init()
@@ -76,7 +76,7 @@ class MetalNBodyRenderPassDescriptor: NSObject {
         set {
             haveTexture = false
             
-            if let drawable = newValue, descriptor = descriptor {
+            if let drawable = newValue, let descriptor = descriptor {
                 let texture = drawable.texture
                 
                 descriptor.colorAttachments[0].texture = texture

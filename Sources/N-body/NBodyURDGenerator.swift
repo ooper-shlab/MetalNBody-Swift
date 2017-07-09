@@ -25,27 +25,27 @@ func +(lhs: Float, rhs: float3) -> float3 {
 class NBodyURDGenerator: NSObject {
     
     // Generate a inital simulation data
-    private var _config: NBody.Defaults.Configs = .Count
+    private var _config: NBody.Defaults.Configs = .count
     var config: NBody.Defaults.Configs {
         get {return _config}
         set {acquire(newValue)}
     }
     
     // N-body simulation global parameters
-    private var _globals: [String: AnyObject]?
+    private var _globals: [String: Any]?
     
     // N-body parameters for simulation types
-    private var _parameters: [String: AnyObject]?
+    private var _parameters: [String: Any]?
     
     // Coordinate points on the Eunclidean axis of simulation
     private var _axis: float3 = float3()
     
     // Position and velocity pointers
-    var position: UnsafeMutablePointer<float4> = nil
-    var velocity: UnsafeMutablePointer<float4> = nil
+    var position: UnsafeMutablePointer<float4>? = nil
+    var velocity: UnsafeMutablePointer<float4>? = nil
     
     // Colors pointer
-    private var _colors: UnsafeMutablePointer<float4> = nil
+    private var _colors: UnsafeMutablePointer<float4>? = nil
     
     private let kScale: Float = 1.0/1024.0
     
@@ -61,7 +61,7 @@ class NBodyURDGenerator: NSObject {
     
     var m_Scales: NBodyScales = NBodyScales()
     
-    var m_DQueue: dispatch_queue_t?
+    var m_DQueue: DispatchQueue?
     
     var mpGenerator: [CM.URD3.Generator]
     
@@ -75,7 +75,7 @@ class NBodyURDGenerator: NSObject {
         _globals    = nil
         _parameters = nil
         
-        _config = .Count
+        _config = .count
         
         _axis = float3(0.0, 0.0, 1.0)
         
@@ -105,22 +105,22 @@ class NBodyURDGenerator: NSObject {
     }
     
     // Colors pointer
-    var colors: UnsafeMutablePointer<float4> {
-        get {return _colors}
+    var colors: UnsafeMutablePointer<float4>? {
+        get {return _colors!}
         set {
             if newValue != nil {
                 _colors = newValue
                 
-                dispatch_apply(mnParticles, m_DQueue) {i in
+                DispatchQueue.concurrentPerform(iterations: mnParticles) {i in
                     let c = self.mpGenerator[0].rand()
-                    self._colors[i] = float4(c.x, c.y, c.z, 1.0)
+                    self._colors?[i] = float4(c.x, c.y, c.z, 1.0)
                 }
             }
         }
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         get {return _globals}
         set {
             if newValue != nil {
@@ -134,7 +134,7 @@ class NBodyURDGenerator: NSObject {
     }
     
     // N-body parameters for simulation types
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         get {return _parameters}
         set {
             if newValue != nil {
@@ -150,13 +150,13 @@ class NBodyURDGenerator: NSObject {
         let pscale = m_Scales.mnCluster  * max(1.0, m_Scales.mnParticles)
         let vscale = m_Scales.mnVelocity * pscale
         
-        dispatch_apply(mnParticles, m_DQueue) {i in
+        DispatchQueue.concurrentPerform(iterations: mnParticles) {i in
             let point = self.mpGenerator[1].nrand()
             let velocity = self.mpGenerator[1].nrand()
             
-            self.position[i] = float4(pscale * point.x, pscale * point.y, pscale * point.z, 1.0)
+            self.position?[i] = float4(pscale * point.x, pscale * point.y, pscale * point.z, 1.0)
             
-            self.velocity[i] = float4(vscale * velocity.x, vscale * velocity.y, vscale * velocity.z, 1.0)
+            self.velocity?[i] = float4(vscale * velocity.x, vscale * velocity.y, vscale * velocity.z, 1.0)
         }
     }
     
@@ -167,12 +167,12 @@ class NBodyURDGenerator: NSObject {
         let outer  = 4.0 * pscale
         let length = outer - inner
         
-        dispatch_apply(mnParticles, m_DQueue) {i in
+        DispatchQueue.concurrentPerform(iterations: mnParticles) {i in
             let nrpos    = self.mpGenerator[1].nrand()
             let rpos     = self.mpGenerator[0].rand()
             let position = nrpos * (inner + (length * rpos))
             
-            self.position[i] = float4(position.x, position.y, position.z, 1.0)
+            self.position?[i] = float4(position.x, position.y, position.z, 1.0)
             
             var axis = self._axis
             
@@ -186,7 +186,7 @@ class NBodyURDGenerator: NSObject {
             
             let velocity = cross(position, axis)
             
-            self.velocity[i] = float4(velocity.x * vscale, velocity.y * vscale, velocity.z * vscale, 1.0)
+            self.velocity?[i] = float4(velocity.x * vscale, velocity.y * vscale, velocity.z * vscale, 1.0)
         }
     }
     
@@ -194,17 +194,17 @@ class NBodyURDGenerator: NSObject {
         let pscale = m_Scales.mnCluster * max(1.0, m_Scales.mnParticles)
         let vscale = pscale * m_Scales.mnVelocity
         
-        dispatch_apply(mnParticles, m_DQueue) {i in
+        DispatchQueue.concurrentPerform(iterations: mnParticles) {i in
             let point = self.mpGenerator[1].rand()
             
-            self.position[i] = float4(point.x * pscale, point.y * pscale, point.z * pscale, 1.0)
+            self.position?[i] = float4(point.x * pscale, point.y * pscale, point.z * pscale, 1.0)
             
-            self.velocity[i] = float4(point.x * vscale, point.y * vscale, point.z * vscale, 1.0)
+            self.velocity?[i] = float4(point.x * vscale, point.y * vscale, point.z * vscale, 1.0)
         }
     }
     
     // Generate a inital simulation data
-    func acquire(config: NBody.Defaults.Configs) {
+    func acquire(_ config: NBody.Defaults.Configs) {
         if isComplete && position != nil && velocity != nil {
             _config = config
             
@@ -218,13 +218,13 @@ class NBodyURDGenerator: NSObject {
             
             if m_DQueue != nil {
                 switch _config {
-                case .Expand:
+                case .expand:
                     self._configExpand()
                     
-                case .Random:
+                case .random:
                     self._configRandom()
                     
-                case .Shell:
+                case .shell:
                     fallthrough
                 default:
                     self._configShell()

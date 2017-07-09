@@ -54,7 +54,7 @@ class MetalNBodyTransform: NSObject {
     private var _aspect: Float = 0.0
     
     // Orthographic projection configuration type
-    private var _config: NBody.Defaults.Configs = .Random
+    private var _config: NBody.Defaults.Configs = .random
     
     // Orthographic 2d bounds
     var bounds: float3 = float3()
@@ -63,7 +63,7 @@ class MetalNBodyTransform: NSObject {
     var center: Float = 0.0
     var zCenter: Float = 0.0
     
-    private var mpTransform: UnsafeMutablePointer<matrix_float4x4> = nil
+    private var mpTransform: UnsafeMutablePointer<matrix_float4x4>? = nil
     
     private var m_View: matrix_float4x4 = matrix_float4x4()
     private var m_Projection: matrix_float4x4 = matrix_float4x4()
@@ -75,8 +75,8 @@ class MetalNBodyTransform: NSObject {
         _update     = false
         _device     = nil
         buffer     = nil
-        size       = sizeof(matrix_float4x4)
-        _config     = NBody.Defaults.Configs.Random
+        size       = MemoryLayout<matrix_float4x4>.size
+        _config     = NBody.Defaults.Configs.random
         _aspect     = NBody.Defaults.kAspectRatio
         center     = NBody.Defaults.kCenter
         zCenter    = NBody.Defaults.kZCenter
@@ -119,25 +119,25 @@ class MetalNBodyTransform: NSObject {
         set {
             if newValue {
                 transform = m_Projection * m_View
-                mpTransform.memory = transform
+                mpTransform?.pointee = transform
                 
                 _update = newValue
             }
         }
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
             return false
         }
         // Generate a Metal buffer for linear transformation matrix
-        let buffer = device.newBufferWithLength(size, options: [])
+        let buffer = device.makeBuffer(length: size, options: [])
         self.buffer = buffer
         
         // Liner transformation mvp matrix
-        mpTransform = UnsafeMutablePointer(buffer.contents())
+        mpTransform = UnsafeMutableRawPointer(buffer.contents()).assumingMemoryBound(to: matrix_float4x4.self)
         
         guard mpTransform != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer to the transformation matrix buffer!")
@@ -150,7 +150,7 @@ class MetalNBodyTransform: NSObject {
     }
     
     // Generate a Metal buffer and linear tranformations
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !haveBuffer {
             haveBuffer = self._acquire(device)
         }

@@ -14,4 +14,4 @@ You should not contact to Apple or SHLab(jp) about any faults caused by my trans
 
 ### Build
 
-Xcode 7.2, iOS SDK 9.2 or OS X 10.11 SDK
+Xcode 8.3.3, iOS SDK 10

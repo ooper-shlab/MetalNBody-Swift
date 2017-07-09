@@ -28,7 +28,6 @@
 		D73E60301C1D2D520080DA17 /* CFQueueGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E602F1C1D2D520080DA17 /* CFQueueGenerator.swift */; };
 		D73E60321C1D37A30080DA17 /* NBodyProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60311C1D37A30080DA17 /* NBodyProperties.swift */; };
 		D73E60341C1D431A0080DA17 /* CMRandom.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60331C1D431A0080DA17 /* CMRandom.swift */; };
-		D73E60361C1D494C0080DA17 /* GenericArithmetic.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */; };
 		D73E60381C1D55070080DA17 /* NBodyURDGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */; };
 		D7637AFA1C1DA85500F053CC /* MetalNBodyTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AF91C1DA85500F053CC /* MetalNBodyTransform.swift */; };
 		D7637AFC1C1DBBB800F053CC /* MetalNBodyVertexStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7637AFB1C1DBBB800F053CC /* MetalNBodyVertexStage.swift */; };
@@ -70,7 +69,6 @@
 		D73E602F1C1D2D520080DA17 /* CFQueueGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CFQueueGenerator.swift; sourceTree = "<group>"; };
 		D73E60311C1D37A30080DA17 /* NBodyProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyProperties.swift; sourceTree = "<group>"; };
 		D73E60331C1D431A0080DA17 /* CMRandom.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CMRandom.swift; sourceTree = "<group>"; };
-		D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericArithmetic.swift; sourceTree = "<group>"; };
 		D73E60371C1D55070080DA17 /* NBodyURDGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NBodyURDGenerator.swift; sourceTree = "<group>"; };
 		D73E60391C1D6DE30080DA17 /* MetalGaussianMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalGaussianMap.swift; sourceTree = "<group>"; };
 		D756F19F1C2713A1006C884C /* README2.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README2.md; sourceTree = "<group>"; };
@@ -83,6 +81,7 @@
 		D7637B051C1EEBE900F053CC /* AppViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppViewController.swift; sourceTree = "<group>"; };
 		D7637B071C1EEC1F00F053CC /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D7B3BD161C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MetalNBodyFragmentStage.swift; sourceTree = "<group>"; };
+		D7FBF55C1EFF7A4B00722305 /* AppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppViewController.mm; sourceTree = "<group>"; };
 		D7FF04C91C2517080028F1D6 /* NBodyComputePrefs-Swift.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NBodyComputePrefs-Swift.h"; sourceTree = "<group>"; };
 		D7FF04CA1C25173B0028F1D6 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D7FF04CB1C25173B0028F1D6 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -260,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				D7637B051C1EEBE900F053CC /* AppViewController.swift */,
+				D7FBF55C1EFF7A4B00722305 /* AppViewController.mm */,
 			);
 			name = "View Controller";
 			sourceTree = "<group>";
@@ -314,7 +314,6 @@
 			isa = PBXGroup;
 			children = (
 				D7FF04CE1C2517550028F1D6 /* MetalNbody-Bridging-Header.h */,
-				D73E60351C1D494C0080DA17 /* GenericArithmetic.swift */,
 				36FF36B61BE977CC009CF055 /* App */,
 				366F64521C066E3100ABC28A /* Foundation */,
 				36FF36BC1BE977CC009CF055 /* Math */,
@@ -383,11 +382,12 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0710;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Babak Mahbod";
 				TargetAttributes = {
 					36DC12811BE966FA00CA0FEE = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0830;
 					};
 				};
 			};
@@ -447,7 +447,6 @@
 				D7B3BD171C1D7BFC00FAF2E1 /* MetalNBodyFragmentStage.swift in Sources */,
 				D73E60341C1D431A0080DA17 /* CMRandom.swift in Sources */,
 				D73E600D1C1BC1020080DA17 /* CM.swift in Sources */,
-				D73E60361C1D494C0080DA17 /* GenericArithmetic.swift in Sources */,
 				D73E602A1C1D29CB0080DA17 /* NBodyDefaults.swift in Sources */,
 				D7FF04C51C24FD360028F1D6 /* MetalNBodyPresenter.swift in Sources */,
 				D73E60111C1BDF7C0080DA17 /* NBodyPreferences.swift in Sources */,
@@ -492,8 +491,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -539,8 +540,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -565,6 +568,7 @@
 				MTL_OPTIMIZATION_LEVEL = 3;
 				MTL_TREAT_WARNINGS_AS_ERRORS = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -577,6 +581,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -585,6 +590,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/MetalNbody-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -595,6 +601,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "$(SRCROOT)/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -602,6 +609,7 @@
 				PRODUCT_NAME = "Metal N-Body";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Sources/MetalNbody-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

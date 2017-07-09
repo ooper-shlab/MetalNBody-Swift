@@ -25,16 +25,16 @@ class MetalNBodyPresenter: NSObject {
     private var _aspect: Float = 0.0
     
     // Orthographic projection configuration type
-    private var _config: NBody.Defaults.Configs = .Random
+    private var _config: NBody.Defaults.Configs = .random
     
     // Update the linear transformation mvp matrix
     private var _update: Bool = false
     
     // N-body simulation global parameters
-    private var _globals: [String: AnyObject]?
+    private var _globals: [String: Any]?
     
     // N-body parameters for simulation types
-    private var _parameters: [String: AnyObject]?
+    private var _parameters: [String: Any]?
     
     // Query to determine if all the resources are instantiated for render encoder object
     private(set) var haveEncoder: Bool = false
@@ -83,7 +83,7 @@ class MetalNBodyPresenter: NSObject {
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         get {return _globals}
         set {
             _globals = newValue
@@ -93,7 +93,7 @@ class MetalNBodyPresenter: NSObject {
     }
     
     // N-body parameters for simulation types
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         get {return _parameters}
         set {
             _parameters = newValue
@@ -130,38 +130,38 @@ class MetalNBodyPresenter: NSObject {
     
     // Color host pointer
     var colors: UnsafeMutablePointer<float4> {
-        var pColors: UnsafeMutablePointer<float4> = nil
+        var pColors: UnsafeMutablePointer<float4>? = nil
         
         if let mpRender = mpRender {
             pColors = mpRender.colors
         }
         
-        return pColors
+        return pColors!
     }
     
     // Position host pointer
     var position: UnsafeMutablePointer<float4> {
-        var pPosition: UnsafeMutablePointer<float4> = nil
+        var pPosition: UnsafeMutablePointer<float4>? = nil
         
         if let mpCompute = mpCompute {
             pPosition = mpCompute.position
         }
         
-        return pPosition
+        return pPosition!
     }
     
     // Velocity host pointer
     var velocity: UnsafeMutablePointer<float4> {
-        var pVelocity: UnsafeMutablePointer<float4> = nil
+        var pVelocity: UnsafeMutablePointer<float4>? = nil
         
         if let mpCompute = mpCompute {
             pVelocity = mpCompute.velocity
         }
         
-        return pVelocity
+        return pVelocity!
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -175,7 +175,7 @@ class MetalNBodyPresenter: NSObject {
             return false
         }
         
-        let m_CmdQueue = device.newCommandQueue()
+        let m_CmdQueue = device.makeCommandQueue()
         self.m_CmdQueue = m_CmdQueue
         
         let mpCompute = MetalNBodyComputeStage()
@@ -210,14 +210,14 @@ class MetalNBodyPresenter: NSObject {
     
     // Generate all the resources (including fragment, vertex and compute stages)
     // for rendering N-Body simulation
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !haveEncoder {
             haveEncoder = self._acquire(device)
         }
     }
     
-    private func _encode(drawable: CAMetalDrawable?) -> Bool {
-        m_CmdBuffer = m_CmdQueue?.commandBuffer()
+    private func _encode(_ drawable: CAMetalDrawable?) -> Bool {
+        m_CmdBuffer = m_CmdQueue?.makeCommandBuffer()
         
         guard let m_CmdBuffer = m_CmdBuffer else {
             NSLog(">> ERROR: Failed to acquire a command buffer!")
@@ -232,7 +232,7 @@ class MetalNBodyPresenter: NSObject {
         mpRender?.cmdBuffer = m_CmdBuffer
         mpRender?.drawable  = drawable
         
-        m_CmdBuffer.presentDrawable(drawable!)
+        m_CmdBuffer.present(drawable!)
         m_CmdBuffer.commit()
         
         mpCompute?.swapBuffers()
@@ -241,7 +241,7 @@ class MetalNBodyPresenter: NSObject {
     }
     
     // Encode vertex, fragment, and compute stages, then present the drawable
-    private func encode(drawable: CAMetalDrawable?) {
+    private func encode(_ drawable: CAMetalDrawable?) {
         isEncoded = self._encode(drawable)
     }
     

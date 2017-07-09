@@ -52,7 +52,7 @@ class MetalNBodyRenderPipeline: NSObject {
         super.init()
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -75,29 +75,29 @@ class MetalNBodyRenderPipeline: NSObject {
         pDescriptor.vertexFunction = vertex
         pDescriptor.fragmentFunction = fragment
         
-        pDescriptor.colorAttachments[0].pixelFormat         = MTLPixelFormat.BGRA8Unorm
-        pDescriptor.colorAttachments[0].blendingEnabled     = true
-        pDescriptor.colorAttachments[0].rgbBlendOperation   = MTLBlendOperation.Add
-        pDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperation.Add
+        pDescriptor.colorAttachments[0].pixelFormat         = MTLPixelFormat.bgra8Unorm
+        pDescriptor.colorAttachments[0].isBlendingEnabled     = true
+        pDescriptor.colorAttachments[0].rgbBlendOperation   = MTLBlendOperation.add
+        pDescriptor.colorAttachments[0].alphaBlendOperation = MTLBlendOperation.add
         
         if blend {
-            pDescriptor.colorAttachments[0].sourceRGBBlendFactor        = MTLBlendFactor.One
-            pDescriptor.colorAttachments[0].sourceAlphaBlendFactor      = MTLBlendFactor.One
-            pDescriptor.colorAttachments[0].destinationRGBBlendFactor   = MTLBlendFactor.OneMinusSourceAlpha
-            pDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactor.OneMinusSourceAlpha
+            pDescriptor.colorAttachments[0].sourceRGBBlendFactor        = MTLBlendFactor.one
+            pDescriptor.colorAttachments[0].sourceAlphaBlendFactor      = MTLBlendFactor.one
+            pDescriptor.colorAttachments[0].destinationRGBBlendFactor   = MTLBlendFactor.oneMinusSourceAlpha
+            pDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactor.oneMinusSourceAlpha
         } else {
-            pDescriptor.colorAttachments[0].sourceRGBBlendFactor        = MTLBlendFactor.SourceAlpha
-            pDescriptor.colorAttachments[0].sourceAlphaBlendFactor      = MTLBlendFactor.SourceAlpha
-            pDescriptor.colorAttachments[0].destinationRGBBlendFactor   = MTLBlendFactor.One
-            pDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactor.One
+            pDescriptor.colorAttachments[0].sourceRGBBlendFactor        = MTLBlendFactor.sourceAlpha
+            pDescriptor.colorAttachments[0].sourceAlphaBlendFactor      = MTLBlendFactor.sourceAlpha
+            pDescriptor.colorAttachments[0].destinationRGBBlendFactor   = MTLBlendFactor.one
+            pDescriptor.colorAttachments[0].destinationAlphaBlendFactor = MTLBlendFactor.one
         }
         
         do {
             
-            render = try device.newRenderPipelineStateWithDescriptor(pDescriptor)
+            render = try device.makeRenderPipelineState(descriptor: pDescriptor)
             
-        } catch let pError as NSError {
-            let pDescription = pError.description
+        } catch let pError {
+            let pDescription = pError.localizedDescription
             
             NSLog(">> ERROR: Failed to instantiate render pipeline: {%@}", pDescription)
             
@@ -110,7 +110,7 @@ class MetalNBodyRenderPipeline: NSObject {
     
     // Generate render pipeline state using a default system
     // device, fragment and vertex stages
-    func acquire(device: MTLDevice?) {
+    func acquire(_ device: MTLDevice?) {
         if !haveDescriptor {
             haveDescriptor = self._acquire(device)
         }

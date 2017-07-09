@@ -16,7 +16,7 @@
 import simd
 import Metal
 
-private let kNBodyFloat4Size = sizeof(float4)
+private let kNBodyFloat4Size = MemoryLayout<float4>.size
 
 @objc(MetalNBodyComputeStage)
 class MetalNBodyComputeStage: NSObject {
@@ -31,10 +31,10 @@ class MetalNBodyComputeStage: NSObject {
     var library: MTLLibrary?
     
     // N-body simulation global parameters
-    private var _globals: [String: AnyObject]?
+    private var _globals: [String: Any]?
     
     // N-body parameters for simulation types
-    private var _parameters: [String: AnyObject]?
+    private var _parameters: [String: Any]?
     
     // Thread execution width multiplier
     private var _multiplier: Int = 1
@@ -66,15 +66,15 @@ class MetalNBodyComputeStage: NSObject {
     private var mnSize: [Int] = [0, 0, 0]
     private var mnThreadDimX: Int = 0
     
-    private var mpHostPos: [UnsafeMutablePointer<float4>] = [nil, nil]
-    private var mpHostVel: [UnsafeMutablePointer<float4>] = [nil, nil]
+    private var mpHostPos: [UnsafeMutablePointer<float4>?] = [nil, nil]
+    private var mpHostVel: [UnsafeMutablePointer<float4>?] = [nil, nil]
     
     private var m_HostPrefs: NBody.Compute.Prefs = NBody.Compute.Prefs(
         timestep: NBody.Defaults.kTimestep,
         damping: NBody.Defaults.kDamping,
         softeningSqr: NBody.Defaults.kSofteningSqr,
         particles: UInt32(NBody.Defaults.kParticles))
-    private var mpHostPrefs: UnsafeMutablePointer<NBody.Compute.Prefs> = nil
+    private var mpHostPrefs: UnsafeMutablePointer<NBody.Compute.Prefs>? = nil
     
     private var m_WGSize: MTLSize = MTLSize()
     private var m_WGCount: MTLSize = MTLSize()
@@ -104,7 +104,7 @@ class MetalNBodyComputeStage: NSObject {
         m_HostPrefs.softeningSqr = NBody.Defaults.kSofteningSqr
         
         mnSize[0] = mnStride * Int(m_HostPrefs.particles)
-        mnSize[1] = strideof(NBody.Compute.Prefs.self)
+        mnSize[1] = MemoryLayout<NBody.Compute.Prefs>.stride
         mnSize[2] = 0
         
         mnStride = kNBodyFloat4Size
@@ -130,12 +130,12 @@ class MetalNBodyComputeStage: NSObject {
     // Host pointers
     
     // Position host pointer
-    var position: UnsafeMutablePointer<float4> {
+    var position: UnsafeMutablePointer<float4>? {
         return mpHostPos[mnRead]
     }
     
     // Velocity host pointer
-    var velocity: UnsafeMutablePointer<float4> {
+    var velocity: UnsafeMutablePointer<float4>? {
         return mpHostVel[mnRead]
     }
     
@@ -149,10 +149,10 @@ class MetalNBodyComputeStage: NSObject {
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         get {return _globals}
         set {
-            if let globals = newValue where !isStaged {
+            if let globals = newValue, !isStaged {
                 _globals = globals
                 
                 m_HostPrefs.particles = UInt32(globals[kNBodyParticles] as! Int)
@@ -163,7 +163,7 @@ class MetalNBodyComputeStage: NSObject {
     }
     
     // N-body parameters for simulation types
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         get {return _parameters}
         set {
             if let parameters = newValue {
@@ -175,12 +175,12 @@ class MetalNBodyComputeStage: NSObject {
                 m_HostPrefs.damping      = parameters[kNBodyDamping] as! Float
                 m_HostPrefs.softeningSqr = nSoftening * nSoftening
                 
-                if mpHostPrefs != nil {mpHostPrefs.memory = m_HostPrefs}
+                if mpHostPrefs != nil {mpHostPrefs?.pointee = m_HostPrefs}
             }
         }
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -192,7 +192,7 @@ class MetalNBodyComputeStage: NSObject {
             return false
         }
         
-        m_Function = library.newFunctionWithName(name ?? "NBodyIntegrateSystem")
+        m_Function = library.makeFunction(name: name ?? "NBodyIntegrateSystem")
         
         guard let m_Function = m_Function else {
             NSLog(">> ERROR: Failed to instantiate function!")
@@ -202,10 +202,10 @@ class MetalNBodyComputeStage: NSObject {
         
         do {
             
-            m_Kernel = try device.newComputePipelineStateWithFunction(m_Function)
+            m_Kernel = try device.makeComputePipelineState(function: m_Function)
             
-        } catch let pError as NSError {
-            let pDescription = pError.description
+        } catch let pError {
+            let pDescription = pError.localizedDescription
             
             NSLog(">> ERROR: Failed to instantiate kernel: {%@}!", pDescription)
             
@@ -225,9 +225,9 @@ class MetalNBodyComputeStage: NSObject {
         m_WGCount = MTLSizeMake(Int(m_HostPrefs.particles)/mnThreadDimX, 1, 1)
         m_WGSize  = MTLSizeMake(mnThreadDimX, 1, 1)
         
-        m_Position[mnRead] = device.newBufferWithLength(mnSize[0], options: [])
+        m_Position[mnRead] = device.makeBuffer(length: mnSize[0], options: [])
         
-        mpHostPos[mnRead] = UnsafeMutablePointer(m_Position[mnRead]!.contents())
+        mpHostPos[mnRead] = UnsafeMutableRawPointer(m_Position[mnRead]!.contents()).assumingMemoryBound(to: float4.self)
         
         guard mpHostPos[mnRead] != nil else {
             NSLog(">> ERROR: Failed to get the base address to position buffer 1!")
@@ -235,9 +235,9 @@ class MetalNBodyComputeStage: NSObject {
             return false
         }
         
-        m_Position[mnWrite] = device.newBufferWithLength(mnSize[0], options: [])
+        m_Position[mnWrite] = device.makeBuffer(length: mnSize[0], options: [])
         
-        mpHostPos[mnWrite] = UnsafeMutablePointer(m_Position[mnWrite]!.contents())
+        mpHostPos[mnWrite] = UnsafeMutableRawPointer(m_Position[mnWrite]!.contents()).assumingMemoryBound(to: float4.self)
         
         guard mpHostPos[mnWrite] != nil else {
             NSLog(">> ERROR: Failed to get the base address to position buffer 2!")
@@ -245,9 +245,9 @@ class MetalNBodyComputeStage: NSObject {
             return false
         }
         
-        m_Velocity[mnRead] = device.newBufferWithLength(mnSize[0], options: [])
+        m_Velocity[mnRead] = device.makeBuffer(length: mnSize[0], options: [])
         
-        mpHostVel[mnRead] = UnsafeMutablePointer(m_Velocity[mnRead]!.contents())
+        mpHostVel[mnRead] = UnsafeMutableRawPointer(m_Velocity[mnRead]!.contents()).assumingMemoryBound(to: float4.self)
         
         guard mpHostVel[mnRead] != nil else {
             NSLog(">> ERROR: Failed to get the base address to velocity buffer 1!")
@@ -255,9 +255,9 @@ class MetalNBodyComputeStage: NSObject {
             return false
         }
         
-        m_Velocity[mnWrite] = device.newBufferWithLength(mnSize[0], options: [])
+        m_Velocity[mnWrite] = device.makeBuffer(length: mnSize[0], options: [])
         
-        mpHostVel[mnWrite] = UnsafeMutablePointer(m_Velocity[mnWrite]!.contents())
+        mpHostVel[mnWrite] = UnsafeMutableRawPointer(m_Velocity[mnWrite]!.contents()).assumingMemoryBound(to: float4.self)
         
         guard mpHostVel[mnWrite] != nil else {
             NSLog(">> ERROR: Failed to get the base address to velocity buffer 2!")
@@ -265,9 +265,9 @@ class MetalNBodyComputeStage: NSObject {
             return false
         }
         
-        m_Params = device.newBufferWithLength(mnSize[1], options: [])
+        m_Params = device.makeBuffer(length: mnSize[1], options: [])
         
-        mpHostPrefs = UnsafeMutablePointer(m_Params!.contents())
+        mpHostPrefs = UnsafeMutableRawPointer(m_Params!.contents()).assumingMemoryBound(to: NBody.Compute.Prefs.self)
         
         guard mpHostPrefs != nil else {
             NSLog(">> ERROR: Failed to get the base address to compute kernel parameter buffer!")
@@ -280,27 +280,27 @@ class MetalNBodyComputeStage: NSObject {
     }
     
     // Generate all the necessary compute stage resources using a default system device
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !isStaged {
             isStaged = self._acquire(device)
         }
     }
     
     // Setup compute pipeline state and encode
-    private func encode(cmdBuffer: MTLCommandBuffer?) {
+    private func encode(_ cmdBuffer: MTLCommandBuffer?) {
         guard let cmdBuffer = cmdBuffer else {return}
-        let encoder = cmdBuffer.computeCommandEncoder()
+        let encoder = cmdBuffer.makeComputeCommandEncoder()
         
         encoder.setComputePipelineState(m_Kernel!)
         
-        encoder.setBuffer(m_Position[mnWrite], offset: 0, atIndex: 0)
-        encoder.setBuffer(m_Velocity[mnWrite], offset: 0, atIndex: 1)
-        encoder.setBuffer(m_Position[mnRead], offset: 0, atIndex: 2)
-        encoder.setBuffer(m_Velocity[mnRead], offset: 0, atIndex: 3)
+        encoder.setBuffer(m_Position[mnWrite], offset: 0, at: 0)
+        encoder.setBuffer(m_Velocity[mnWrite], offset: 0, at: 1)
+        encoder.setBuffer(m_Position[mnRead], offset: 0, at: 2)
+        encoder.setBuffer(m_Velocity[mnRead], offset: 0, at: 3)
         
-        encoder.setBuffer(m_Params, offset: 0, atIndex: 4)
+        encoder.setBuffer(m_Params, offset: 0, at: 4)
         
-        encoder.setThreadgroupMemoryLength(mnSize[2], atIndex: 0)
+        encoder.setThreadgroupMemoryLength(mnSize[2], at: 0)
         
         encoder.dispatchThreadgroups(m_WGCount, threadsPerThreadgroup: m_WGSize)
         

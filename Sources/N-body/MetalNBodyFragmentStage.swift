@@ -22,7 +22,7 @@ class MetalNBodyFragmentStage: NSObject {
     private(set) var isStaged: Bool = false
     
     // N-body simulation global parameters
-    private var _globals: [String: AnyObject]?
+    private var _globals: [String: Any]?
     
     // Fragment function name
     var name: String?
@@ -73,7 +73,7 @@ class MetalNBodyFragmentStage: NSObject {
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         get {return _globals}
         set {
             if newValue != nil && !isStaged {
@@ -86,7 +86,7 @@ class MetalNBodyFragmentStage: NSObject {
         }
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -98,7 +98,7 @@ class MetalNBodyFragmentStage: NSObject {
             return false
         }
         
-        function = library.newFunctionWithName(name ?? "NBodyLightingFragment")
+        function = library.makeFunction(name: name ?? "NBodyLightingFragment")
         
         guard let _ = function else {
             NSLog(">> ERROR: Failed to instantiate fragment function!")
@@ -135,16 +135,16 @@ class MetalNBodyFragmentStage: NSObject {
     }
     
     // Generate all the necessary fragment stage resources using a default system device
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !isStaged {
             isStaged = self._acquire(device)
         }
     }
     
     // Encode texture and sampler for the fragment stage
-    func encode(cmdEncoder: MTLRenderCommandEncoder?) {
-        cmdEncoder?.setFragmentTexture(mpGaussian?.texture, atIndex: 0)
-        cmdEncoder?.setFragmentSamplerState(mpSampler?.sampler, atIndex: 0)
+    func encode(_ cmdEncoder: MTLRenderCommandEncoder?) {
+        cmdEncoder?.setFragmentTexture(mpGaussian?.texture, at: 0)
+        cmdEncoder?.setFragmentSamplerState(mpSampler?.sampler, at: 0)
     }
     
 }

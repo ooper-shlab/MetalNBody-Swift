@@ -23,7 +23,7 @@ func * (lhs: matrix_float4x4, rhs: matrix_float4x4) -> matrix_float4x4 {
 //MARK: -
 //MARK: Private - Constants
 
-private let kPi_f      = Float(M_PI)
+private let kPi_f      = Float.pi
 private let k1Div180_f: Float = 1.0 / 180.0
 private let kRadians_f = k1Div180_f * kPi_f
 
@@ -31,7 +31,7 @@ extension CM {
 //MARK: -
 //MARK: Private - Utilities
 
-    private static func radians(degrees: Float) -> Float {
+    private static func radians(_ degrees: Float) -> Float {
         return kRadians_f * degrees
     }
 
@@ -40,16 +40,16 @@ extension CM {
 
 // Construct a float 2x2 matrix from an array
 // of floats with 4 elements
-    static func float2x2(transpose: Bool,
-        M: UnsafePointer<Float>) -> matrix_float2x2
+    static func float2x2(_ transpose: Bool,
+        M: UnsafePointer<Float>?) -> matrix_float2x2
     {
         var N = matrix_float2x2()
 
         if M != nil {
             var v: [float2] = [float2(), float2()]
 
-            v[0] = float2(M[0], M[1])
-            v[1] = float2(M[2], M[3])
+            v[0] = float2((M?[0])!, (M?[1])!)
+            v[1] = float2((M?[2])!, (M?[3])!)
 
             N = transpose
             ? matrix_from_rows(v[0], v[1])
@@ -63,17 +63,17 @@ extension CM {
 
 // Construct a float 3x3 matrix from an array
 // of floats with 9 elements
-    static func float3x3(transpose: Bool,
-        M: UnsafePointer<Float>) -> matrix_float3x3
+    static func float3x3(_ transpose: Bool,
+        M: UnsafePointer<Float>?) -> matrix_float3x3
     {
         var N = matrix_float3x3()
 
         if M != nil {
             var v: [float3] = [float3(), float3(), float3()]
 
-            v[0] = float3(M[0], M[1], M[2])
-            v[1] = float3(M[3], M[4], M[5])
-            v[2] = float3(M[6], M[7], M[8])
+            v[0] = float3((M?[0])!, (M?[1])!, (M?[2])!)
+            v[1] = float3((M?[3])!, (M?[4])!, (M?[5])!)
+            v[2] = float3((M?[6])!, (M?[7])!, (M?[8])!)
 
             N = transpose
             ? matrix_from_rows(v[0], v[1], v[2])
@@ -87,18 +87,18 @@ extension CM {
 
 // Construct a float 4x4 matrix from an array
 // of floats with 16 elements
-    static func float4x4(transpose: Bool,
-        M: UnsafePointer<Float>) -> matrix_float4x4
+    static func float4x4(_ transpose: Bool,
+        M: UnsafePointer<Float>?) -> matrix_float4x4
     {
         var N = matrix_float4x4()
 
         if M != nil {
             var v: [float4] = [float4(), float4(), float4(), float4()]
 
-            v[0] = float4(M[0], M[1], M[2], M[3])
-            v[1] = float4(M[4], M[5], M[6], M[7])
-            v[2] = float4(M[8], M[9], M[10], M[11])
-            v[3] = float4(M[12], M[13], M[14], M[15])
+            v[0] = float4((M?[0])!, (M?[1])!, (M?[2])!, (M?[3])!)
+            v[1] = float4((M?[4])!, (M?[5])!, (M?[6])!, (M?[7])!)
+            v[2] = float4((M?[8])!, (M?[9])!, (M?[10])!, (M?[11])!)
+            v[3] = float4((M?[12])!, (M?[13])!, (M?[14])!, (M?[15])!)
 
             N = transpose
             ? matrix_from_rows(v[0], v[1], v[2], v[3])
@@ -111,7 +111,7 @@ extension CM {
     }
 
 // Construct a float 3x3 matrix from a 4x4 matrix
-    static func float3x3(transpose: Bool,
+    static func float3x3(_ transpose: Bool,
         M: matrix_float4x4) -> matrix_float3x3
     {
         let P = float3(M.columns.0.x, M.columns.0.y, M.columns.0.z)
@@ -122,7 +122,7 @@ extension CM {
     }
 
 // Construct a float 4x4 matrix from a 3x3 matrix
-    static func float4x4(transpose: Bool,
+    static func float4x4(_ transpose: Bool,
         M: matrix_float3x3) -> matrix_float4x4
     {
         let S = float4(0.0, 0.0, 0.0, 1.0)
@@ -137,7 +137,7 @@ extension CM {
 //MARK: -
 //MARK: Public - Transformations - Scale
 
-    static func scale(x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
+    static func scale(_ x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
         var v = matrix_float4x4()
         v.columns.0.x = x
         v.columns.1.y = y
@@ -147,7 +147,7 @@ extension CM {
         return v
     }
 
-    static func scale(s: float3) -> matrix_float4x4 {
+    static func scale(_ s: float3) -> matrix_float4x4 {
         var v = matrix_float4x4()
         v.columns.0.x = s.x
         v.columns.1.y = s.y
@@ -160,7 +160,7 @@ extension CM {
 //MARK: -
 //MARK: Public - Transformations - Translate
 
-    static func translate(t: float3) -> matrix_float4x4 {
+    static func translate(_ t: float3) -> matrix_float4x4 {
         var M = matrix_identity_float4x4
 
         M.columns.3 = float4(t.x, t.y, t.z, 1.0)
@@ -168,18 +168,18 @@ extension CM {
         return M
     }
 
-    static func translate(x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
+    static func translate(_ x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
         return translate(float3(x, y, z))
     }
 
 //MARK: -
 //MARK: Public - Transformations - Left-Handed - Rotate
 
-    static func AAPLRadiansOverPi(degrees: Float) -> Float {
+    static func AAPLRadiansOverPi(_ degrees: Float) -> Float {
         return (degrees * k1Div180_f)
     }
 
-    static func rotate(angle: Float, _ r: float3) -> matrix_float4x4 {
+    static func rotate(_ angle: Float, _ r: float3) -> matrix_float4x4 {
         let a = AAPLRadiansOverPi(angle)
         var c: Float = 0.0
         var s: Float = 0.0
@@ -216,7 +216,7 @@ extension CM {
         return matrix_float4x4(columns: (P, Q, R, S))
     }
 
-    static func rotate(angle: Float, _ x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
+    static func rotate(_ angle: Float, _ x: Float, _ y: Float, _ z: Float) -> matrix_float4x4 {
         let r = float3(x, y, z)
 
         return rotate(angle, r)
@@ -333,7 +333,7 @@ extension CM {
 //MARK: -
 //MARK: Public - Transformations - Left-Handed - Orthographic
 
-    static func ortho2d(left: Float,
+    static func ortho2d(_ left: Float,
         _ right: Float,
         _ bottom: Float,
         _ top: Float,
@@ -358,14 +358,14 @@ extension CM {
         return matrix_float4x4(columns: (P, Q, R, S))
     }
 
-    static func ortho2d(origin: float3, _ size: float3) -> matrix_float4x4 {
+    static func ortho2d(_ origin: float3, _ size: float3) -> matrix_float4x4 {
         return CM.ortho2d(origin.x, origin.y, origin.z, size.x, size.y, size.z)
     }
 
 //MARK: -
 //MARK: Public - Transformations - Left-Handed - Off-Center Orthographic
 
-    static func ortho2d_oc(left: Float,
+    static func ortho2d_oc(_ left: Float,
         _ right: Float,
         _ bottom: Float,
         _ top: Float,
@@ -392,7 +392,7 @@ extension CM {
         return matrix_float4x4(columns: (P, Q, R,S))
     }
 
-    static func ortho2d_oc(origin: float3,
+    static func ortho2d_oc(_ origin: float3,
         _ size: float3) -> matrix_float4x4
     {
         return ortho2d_oc(origin.x, origin.y, origin.z, size.x, size.y, size.z)
@@ -401,7 +401,7 @@ extension CM {
 //MARK: -
 //MARK: Public - Transformations - Left-Handed - frustum
 
-    static func frustum(fovH: Float,
+    static func frustum(_ fovH: Float,
         _ fovV: Float,
         _ near: Float,
         _ far: Float) -> matrix_float4x4
@@ -424,7 +424,7 @@ extension CM {
         return matrix_float4x4(columns: (P, Q, R, S))
     }
 
-    static func frustum(left: Float,
+    static func frustum(_ left: Float,
         _ right: Float,
         _ bottom: Float,
         _ top: Float,
@@ -450,7 +450,7 @@ extension CM {
         return matrix_float4x4(columns: (P, Q, R, S))
     }
 
-    static func frustum_oc(left: Float,
+    static func frustum_oc(_ left: Float,
         _ right: Float,
         _ bottom: Float,
         _ top: Float,

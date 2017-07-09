@@ -33,13 +33,13 @@ class NBodyProperties: NSObject {
     // The number of N-body simulation types
     private(set) var count: Int = 0
     
-    private var mpGlobals: [String: AnyObject]?
-    private var mpParameters: [String: AnyObject]?
+    private var mpGlobals: [String: Any]?
+    private var mpParameters: [String: Any]?
     
-    private var mpProperties: [[String: AnyObject]]?
+    private var mpProperties: [[String: Any]]?
     
-    func _newProperties(pFileName: String?) -> [String: AnyObject]? {
-        var pProperties: [String: AnyObject]?
+    func _newProperties(_ pFileName: String?) -> [String: Any]? {
+        var pProperties: [String: Any]?
         
         guard let pFileName = pFileName else {
             NSLog(">> ERROR: File name is nil!")
@@ -47,11 +47,11 @@ class NBodyProperties: NSObject {
             return nil
         }
         
-        let pBundle = NSBundle.mainBundle()
+        let pBundle = Bundle.main
         
         let pPathname = "\(pBundle.resourcePath!)/\(pFileName)"
         
-        guard let pXML = NSData(contentsOfFile: pPathname) else {
+        guard let pXML = try? Data(contentsOf: URL(fileURLWithPath: pPathname)) else {
             
             NSLog(">> ERROR: Failed instantiating a xml data from the contents of a file!")
             
@@ -60,14 +60,14 @@ class NBodyProperties: NSObject {
         
         do {
             
-            var format = NSPropertyListFormat.XMLFormat_v1_0
+            var format = PropertyListSerialization.PropertyListFormat.xml
             
-            pProperties = try NSPropertyListSerialization.propertyListWithData(pXML,
-                options: .MutableContainers,
-                format: &format) as? [String: AnyObject]
+            pProperties = try PropertyListSerialization.propertyList(from: pXML,
+                options: .mutableContainers,
+                format: &format) as? [String: Any]
             
-        } catch let pError as NSError {
-            NSLog(">> ERROR: \"%@\"", pError.description)
+        } catch let pError {
+            NSLog(">> ERROR: \"%@\"", pError.localizedDescription)
             return nil
         }
         
@@ -81,7 +81,7 @@ class NBodyProperties: NSObject {
         
         guard let pProperties = self._newProperties(fileName) else {return}
         
-        mpGlobals = pProperties[kNBodyGlobals] as! [String: AnyObject]?
+        mpGlobals = pProperties[kNBodyGlobals] as! [String: Any]?
         
         if let globals = mpGlobals {
             _particles = globals[kNBodyParticles] as! Int
@@ -89,7 +89,7 @@ class NBodyProperties: NSObject {
             _channels = globals[kNBodyChannels] as! Int
         }
         
-        mpProperties = pProperties[kNBodyParameters] as! [[String: AnyObject]]?
+        mpProperties = pProperties[kNBodyParameters] as! [[String: Any]]?
         
         if let properties = mpProperties {
             count = properties.count
@@ -105,12 +105,12 @@ class NBodyProperties: NSObject {
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         return mpGlobals
     }
     
     // N-body parameters for simulation types
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         return mpParameters
     }
     

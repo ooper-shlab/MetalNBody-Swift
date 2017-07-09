@@ -39,7 +39,7 @@ class MetalNBodySampler: NSObject {
         super.init()
     }
 
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -47,17 +47,17 @@ class MetalNBodySampler: NSObject {
         }
         let pDescriptor = MTLSamplerDescriptor()
 
-        pDescriptor.minFilter             = MTLSamplerMinMagFilter.Linear
-        pDescriptor.magFilter             = MTLSamplerMinMagFilter.Linear
-        pDescriptor.sAddressMode          = MTLSamplerAddressMode.Repeat
-        pDescriptor.tAddressMode          = MTLSamplerAddressMode.Repeat
-        pDescriptor.mipFilter             = MTLSamplerMipFilter.NotMipmapped
+        pDescriptor.minFilter             = MTLSamplerMinMagFilter.linear
+        pDescriptor.magFilter             = MTLSamplerMinMagFilter.linear
+        pDescriptor.sAddressMode          = MTLSamplerAddressMode.repeat
+        pDescriptor.tAddressMode          = MTLSamplerAddressMode.repeat
+        pDescriptor.mipFilter             = MTLSamplerMipFilter.notMipmapped
         pDescriptor.maxAnisotropy         = 1
         pDescriptor.normalizedCoordinates = true
         pDescriptor.lodMinClamp           = 0.0
         pDescriptor.lodMaxClamp           = 255.0
 
-        sampler = device.newSamplerStateWithDescriptor(pDescriptor)
+        sampler = device.makeSamplerState(descriptor: pDescriptor)
 
         if sampler == nil {
             NSLog(">> ERROR: Failed to instantiate sampler state with descriptor!")
@@ -69,7 +69,7 @@ class MetalNBodySampler: NSObject {
 
     }
 
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
             if !haveSampler {
                 haveSampler = self._acquire(device)
             }

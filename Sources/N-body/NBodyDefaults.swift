@@ -37,10 +37,10 @@ extension NBody {
         }
         
         enum Configs: Int {
-            case Random = 0
-            case Shell
-            case Expand
-            case Count
+            case random = 0
+            case shell
+            case expand
+            case count
         }
     }
 }

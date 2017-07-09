@@ -38,7 +38,7 @@ class MetalGaussianMap : NSObject {
     private var _texRes: Int = 0
     
     // Number of color channels. Defaults to 4 for RGBA
-    private var _channels: CChannels = .Unknown
+    private var _channels: CChannels = .unknown
     
     // Gaussian texture width
     private(set) var width: Int = 0
@@ -50,16 +50,16 @@ class MetalGaussianMap : NSObject {
     private(set) var rowBytes: Int = 0
     
     enum CChannels: Int {
-        case Unknown = 0
-        case R
-        case RG
-        case RGB
-        case RGBA
+        case unknown = 0
+        case r
+        case rg
+        case rgb
+        case rgba
     }
     
     private var m_Region: MTLRegion?
     
-    private var m_DQueue: [dispatch_queue_t?] = Array(count: 2, repeatedValue: nil)
+    private var m_DQueue: [DispatchQueue?] = Array(repeating: nil, count: 2)
     
     private var mpQGen: CFQueueGenerator?
     
@@ -69,7 +69,7 @@ class MetalGaussianMap : NSObject {
         _texRes      = 64
         width       = _texRes
         height      = _texRes
-        _channels    = .RGBA
+        _channels    = .rgba
         super.init()
         rowBytes    = width * _channels.rawValue
         haveTexture = false
@@ -97,11 +97,11 @@ class MetalGaussianMap : NSObject {
     var channels: CChannels {
         get {return _channels }
         set {
-            _channels = (newValue != .Unknown) ? newValue : .RGBA
+            _channels = (newValue != .unknown) ? newValue : .rgba
         }
     }
     
-    private func _initImage(pImage: UnsafeMutablePointer<UInt8>) {
+    private func _initImage(_ pImage: UnsafeMutablePointer<UInt8>) {
         let nDelta = 2.0 / Float(_texRes)
         
         var i = 0
@@ -109,10 +109,10 @@ class MetalGaussianMap : NSObject {
         
         var w = float2(-1.0, -1.0)
         
-        dispatch_apply(_texRes, m_DQueue[0]) {y in
+        DispatchQueue.concurrentPerform(iterations: _texRes) {y in
             w.y += nDelta
             
-            dispatch_apply(self._texRes, self.m_DQueue[1]) {x in
+            DispatchQueue.concurrentPerform(iterations: self._texRes) {x in
                 w.x += nDelta
                 
                 let d = length(w)
@@ -124,19 +124,19 @@ class MetalGaussianMap : NSObject {
                 let nColor = UInt8(255.0 * ((2.0 * t - 3.0) * t * t + 1.0))
                 
                 switch self._channels {
-                case .RGBA:
+                case .rgba:
                     pImage[j+3] = nColor
                     fallthrough
                     
-                case .RGB:
+                case .rgb:
                     pImage[j+2] = nColor
                     fallthrough
                     
-                case .RG:
+                case .rg:
                     pImage[j+1] = nColor
                     fallthrough
                     
-                case .R:
+                case .r:
                     fallthrough
                 default:
                     pImage[j] = nColor
@@ -173,14 +173,14 @@ class MetalGaussianMap : NSObject {
     }
     
     // Generate the Gaussian image
-    private func _newImage() -> UnsafeMutablePointer<UInt8> {
-        var pImage: UnsafeMutablePointer<UInt8> = nil
+    private func _newImage() -> UnsafeMutablePointer<UInt8>? {
+        var pImage: UnsafeMutablePointer<UInt8>? = nil
         
         if self._newQueues() {
-            pImage = UnsafeMutablePointer.alloc(_channels.rawValue * _texRes * _texRes)
+            pImage = UnsafeMutablePointer.allocate(capacity: _channels.rawValue * _texRes * _texRes)
             
             if pImage != nil {
-                self._initImage(pImage)
+                self._initImage(pImage!)
             } else {
                 NSLog(">> ERROR: Failed allocating backing-store for a Gaussian image!")
             }
@@ -190,20 +190,20 @@ class MetalGaussianMap : NSObject {
     }
     
     // Generate a Gaussian texture
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
             return false
         }
         // Create a Metal texture descriptor
-        let pDesc = MTLTextureDescriptor.texture2DDescriptorWithPixelFormat(.RGBA8Unorm,
+        let pDesc = MTLTextureDescriptor.texture2DDescriptor(pixelFormat: .rgba8Unorm,
             width: width,
             height: height,
             mipmapped: false)
         
         // Create a Metal texture from a descriptor
-        let texture = device.newTextureWithDescriptor(pDesc)
+        let texture = device.makeTexture(descriptor: pDesc)
         self.texture = texture
         
         // Generate a Gaussian image data
@@ -216,9 +216,9 @@ class MetalGaussianMap : NSObject {
         rowBytes = width * _channels.rawValue
         
         // Upload the Gaussian image into the Metal texture
-        texture.replaceRegion(m_Region!, mipmapLevel: 0, withBytes: pImage, bytesPerRow: rowBytes)
+        texture.replace(region: m_Region!, mipmapLevel: 0, withBytes: pImage!, bytesPerRow: rowBytes)
         
-        pImage.dealloc(_channels.rawValue * _texRes * _texRes)
+        pImage!.deallocate(capacity: _channels.rawValue * _texRes * _texRes)
         
         return true
         
@@ -226,7 +226,7 @@ class MetalGaussianMap : NSObject {
     
     // Generate a texture from samples generated by convolving the initial
     // data with a Gaussian white noise
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !haveTexture {
             haveTexture = self._acquire(device)
         }

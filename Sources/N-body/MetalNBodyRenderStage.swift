@@ -31,13 +31,13 @@ class MetalNBodyRenderStage: NSObject {
     var positions: MTLBuffer?
     
     // Orthographic projection configuration type
-    private var _config: NBody.Defaults.Configs = .Random
+    private var _config: NBody.Defaults.Configs = .random
     
     // N-body simulation global parameters
-    private var _globals: [String: AnyObject]?
+    private var _globals: [String: Any]?
     
     // N-body parameters for simulation types
-    private var _parameters: [String: AnyObject]?
+    private var _parameters: [String: Any]?
     
     // Query to determine if all the resources are instantiated for the render stage object
     private(set) var isStaged: Bool = false
@@ -95,10 +95,10 @@ class MetalNBodyRenderStage: NSObject {
     }
     
     // N-body simulation global parameters
-    var globals: [String: AnyObject]? {
+    var globals: [String: Any]? {
         get {return _globals}
         set {
-            if let globals = newValue where !isStaged {
+            if let globals = newValue, !isStaged {
                 _globals = globals
                 
                 mnParticles = globals[kNBodyParticles] as! Int
@@ -109,7 +109,7 @@ class MetalNBodyRenderStage: NSObject {
     }
     
     // N-body parameters for simulation types
-    var parameters: [String: AnyObject]? {
+    var parameters: [String: Any]? {
         get {return _parameters}
         set {
             if let parameters = newValue {
@@ -146,16 +146,16 @@ class MetalNBodyRenderStage: NSObject {
     
     // Color host pointer
     var colors: UnsafeMutablePointer<float4> {
-        var pColors: UnsafeMutablePointer<float4> = nil
+        var pColors: UnsafeMutablePointer<float4>? = nil
         
         if let mpVertex = mpVertex {
             pColors = mpVertex.colors
         }
         
-        return pColors
+        return pColors!
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let device = device else {
             NSLog(">> ERROR: Metal device is nil!")
             
@@ -214,13 +214,13 @@ class MetalNBodyRenderStage: NSObject {
     }
     
     // Generate all the fragment, vertex and stages
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !isStaged {
             isStaged = self._acquire(device)
         }
     }
     
-    private func _encode(drawable: CAMetalDrawable?) -> Bool {
+    private func _encode(_ drawable: CAMetalDrawable?) -> Bool {
         guard let cmdBuffer = cmdBuffer else {
             NSLog(">> ERROR: Command buffer is nil!")
             
@@ -241,7 +241,7 @@ class MetalNBodyRenderStage: NSObject {
             return false
         }
         
-        let renderEncoder = cmdBuffer.renderCommandEncoderWithDescriptor(mpDescriptor!.descriptor!)
+        let renderEncoder = cmdBuffer.makeRenderCommandEncoder(descriptor: mpDescriptor!.descriptor!)
         
         renderEncoder.setRenderPipelineState(mpPipeline!.render!)
         
@@ -250,7 +250,7 @@ class MetalNBodyRenderStage: NSObject {
         
         mpFragment?.cmdEncoder = renderEncoder
         
-        renderEncoder.drawPrimitives(.Point,
+        renderEncoder.drawPrimitives(type: .point,
             vertexStart: 0,
             vertexCount: mnParticles,
             instanceCount: 1)
@@ -261,7 +261,7 @@ class MetalNBodyRenderStage: NSObject {
     }
     
     // Encode vertex and fragment stages
-    private func encode(drawable: CAMetalDrawable?) {
+    private func encode(_ drawable: CAMetalDrawable?) {
         isEncoded = self._encode(drawable)
     }
     

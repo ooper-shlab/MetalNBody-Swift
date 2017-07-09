@@ -27,7 +27,7 @@ class AppViewController: UIViewController, MTKViewDelegate {
     // N-body simulation visualizer object
     private var mpVisualizer: NBodyVisualizer?
     
-    private func _update(view: MTKView) {
+    private func _update(_ view: MTKView) {
         let bounds = view.bounds
         let aspect = Float(abs(bounds.size.width / bounds.size.height))
         
@@ -35,12 +35,12 @@ class AppViewController: UIViewController, MTKViewDelegate {
         mpVisualizer?.aspect = aspect
     }
     
-    func mtkView(view: MTKView, drawableSizeWillChange size: CGSize) {
+    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) {
         // Update the mvp linear transformation matrix
         self._update(view)
     }
-    
-    func drawInMTKView(view: MTKView) {
+
+    func draw(in view: MTKView) {
         autoreleasepool{
             self._update(view)
             
@@ -53,11 +53,11 @@ class AppViewController: UIViewController, MTKViewDelegate {
         super.didReceiveMemoryWarning()
     }
     
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
-        return .LightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         // Instantiate a new N-body visualizer object
@@ -69,7 +69,7 @@ class AppViewController: UIViewController, MTKViewDelegate {
         
         // If successful in acquiring resources for the visualizer
         // object, then continue
-        assert(mpVisualizer.haveVisualizer ?? false)
+        assert(mpVisualizer.haveVisualizer)
     }
     
     override func viewDidLoad() {

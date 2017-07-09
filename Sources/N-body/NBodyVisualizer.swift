@@ -38,7 +38,7 @@ class NBodyVisualizer: NSObject {
     }
     
     // Orthographic projection configuration type
-    var config: NBody.Defaults.Configs = .Random
+    var config: NBody.Defaults.Configs = .random
     
     // Coordinate points on the Eunclidean axis of simulation
     private var _axis: float3 = float3()
@@ -77,7 +77,7 @@ class NBodyVisualizer: NSObject {
         
         _aspect    = NBody.Defaults.kAspectRatio
         _frames    = NBody.Defaults.kFrames
-        config    = NBody.Defaults.Configs.Shell
+        config     = NBody.Defaults.Configs.shell
         _texRes    = NBody.Defaults.kTexRes
         _particles = Int(NBody.Defaults.kParticles)
         
@@ -142,7 +142,7 @@ class NBodyVisualizer: NSObject {
         }
     }
     
-    private func _acquire(device: MTLDevice?) -> Bool {
+    private func _acquire(_ device: MTLDevice?) -> Bool {
         guard let _ = device else {
             return false
         }
@@ -189,14 +189,14 @@ class NBodyVisualizer: NSObject {
         
         // Using the properties dictionary generate initial data for the simulation
         mpGenerator?.parameters = mpProperties?.parameters
-        mpGenerator?.colors     = mpPresenter?.colors ?? nil
-        mpGenerator?.position   = mpPresenter?.position ?? nil
-        mpGenerator?.velocity   = mpPresenter?.velocity ?? nil
+        mpGenerator?.colors     = mpPresenter?.colors
+        mpGenerator?.position   = mpPresenter?.position
+        mpGenerator?.velocity   = mpPresenter?.velocity
         mpGenerator?.config     = config
     }
     
     // Generate all the resources necessary for N-body simulation
-    private func acquire(device: MTLDevice?) {
+    private func acquire(_ device: MTLDevice?) {
         if !haveVisualizer {
             haveVisualizer = self._acquire(device)
             
@@ -207,7 +207,7 @@ class NBodyVisualizer: NSObject {
     }
     
     // Render a new frame
-    private func _renderFrame(drawable: CAMetalDrawable?) {
+    private func _renderFrame(_ drawable: CAMetalDrawable?) {
         mpPresenter?.aspect     = _aspect;                 // Update the aspect ratio
         mpPresenter?.parameters = mpProperties?.parameters; // Update the simulation parameters
         mpPresenter?.drawable   = drawable;                // Set the new drawable and present
@@ -230,7 +230,7 @@ class NBodyVisualizer: NSObject {
     }
     
     // Render a frame for N-body simaulation
-    private func render(drawable: CAMetalDrawable?) {
+    private func render(_ drawable: CAMetalDrawable?) {
         if let drawable = drawable {
             self._renderFrame(drawable)
             self._nextFrame()
