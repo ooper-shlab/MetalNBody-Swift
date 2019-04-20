@@ -164,7 +164,7 @@ class MetalNBodyVertexStage: NSObject {
         let m_Colors = device.makeBuffer(length: MemoryLayout<float4>.size*mnParticles, options: [])
         self.m_Colors = m_Colors
         
-        colors = UnsafeMutableRawPointer(m_Colors.contents()).assumingMemoryBound(to: float4.self)
+        colors = UnsafeMutableRawPointer(m_Colors!.contents()).assumingMemoryBound(to: float4.self)
         
         guard colors != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer for m_Colors buffer!")
@@ -175,7 +175,7 @@ class MetalNBodyVertexStage: NSObject {
         let m_PointSz = device.makeBuffer(length: MemoryLayout<Float>.size, options: [])
         self.m_PointSz = m_PointSz
         
-        mpPointSz = UnsafeMutableRawPointer(m_PointSz.contents()).assumingMemoryBound(to: Float.self)
+        mpPointSz = UnsafeMutableRawPointer(m_PointSz!.contents()).assumingMemoryBound(to: Float.self)
         
         guard mpPointSz != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer for buffer representing m_PointSz size!")
@@ -208,10 +208,10 @@ class MetalNBodyVertexStage: NSObject {
     // Encode the buffers for the vertex stage
     private func encode(_ cmdEncoder: MTLRenderCommandEncoder?) {
         if let positions = positions {
-            cmdEncoder?.setVertexBuffer(positions, offset: 0, at: 0)
-            cmdEncoder?.setVertexBuffer(m_Colors, offset: 0, at: 1)
-            cmdEncoder?.setVertexBuffer(mpTransform?.buffer, offset: 0, at: 2)
-            cmdEncoder?.setVertexBuffer(m_PointSz, offset: 0, at: 3)
+            cmdEncoder?.setVertexBuffer(positions, offset: 0, index: 0)
+            cmdEncoder?.setVertexBuffer(m_Colors, offset: 0, index: 1)
+            cmdEncoder?.setVertexBuffer(mpTransform?.buffer, offset: 0, index: 2)
+            cmdEncoder?.setVertexBuffer(m_PointSz, offset: 0, index: 3)
         }
     }
     

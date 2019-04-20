@@ -140,8 +140,8 @@ class NBodyURDGenerator: NSObject {
             if newValue != nil {
                 _parameters = newValue
                 
-                m_Scales.mnCluster = _parameters![kNBodyClusterScale] as! Float
-                m_Scales.mnVelocity = _parameters![kNBodyVelocityScale] as! Float
+                m_Scales.mnCluster = (_parameters![kNBodyClusterScale] as! NSNumber).floatValue
+                m_Scales.mnVelocity = (_parameters![kNBodyVelocityScale] as! NSNumber).floatValue
             }
         }
     }

@@ -241,7 +241,7 @@ class MetalNBodyRenderStage: NSObject {
             return false
         }
         
-        let renderEncoder = cmdBuffer.makeRenderCommandEncoder(descriptor: mpDescriptor!.descriptor!)
+        let renderEncoder = cmdBuffer.makeRenderCommandEncoder(descriptor: mpDescriptor!.descriptor!)!
         
         renderEncoder.setRenderPipelineState(mpPipeline!.render!)
         

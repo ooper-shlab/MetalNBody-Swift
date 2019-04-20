@@ -53,7 +53,7 @@ extension CM {
 
             N = transpose
             ? matrix_from_rows(v[0], v[1])
-            : matrix_from_columns(v[0], v[1])
+                : simd_float2x2(v[0], v[1])
         } else {
             N = matrix_identity_float2x2
         }
@@ -77,7 +77,7 @@ extension CM {
 
             N = transpose
             ? matrix_from_rows(v[0], v[1], v[2])
-            : matrix_from_columns(v[0], v[1], v[2])
+                : simd_float3x3(v[0], v[1], v[2])
         } else {
             N = matrix_identity_float3x3
         }
@@ -102,7 +102,7 @@ extension CM {
 
             N = transpose
             ? matrix_from_rows(v[0], v[1], v[2], v[3])
-            : matrix_from_columns(v[0], v[1], v[2], v[3])
+                : simd_float4x4(v[0], v[1], v[2], v[3])
         } else {
             N = matrix_identity_float4x4
         }
@@ -118,7 +118,7 @@ extension CM {
         let Q = float3(M.columns.1.x, M.columns.1.y, M.columns.1.z)
         let R = float3(M.columns.2.x, M.columns.2.y, M.columns.2.z)
 
-        return transpose ? matrix_from_rows(P, Q, R) : matrix_from_columns(P, Q, R)
+        return transpose ? matrix_from_rows(P, Q, R) : simd_float3x3(P, Q, R)
     }
 
 // Construct a float 4x4 matrix from a 3x3 matrix
@@ -131,7 +131,7 @@ extension CM {
         let Q = float4(M.columns.1.x, M.columns.1.y, M.columns.1.z, 0.0)
         let R = float4(M.columns.2.x, M.columns.2.y, M.columns.2.z, 0.0)
 
-        return transpose ? matrix_from_rows(P, Q, R, S) : matrix_from_columns(P, Q, R, S)
+        return transpose ? matrix_from_rows(P, Q, R, S) : simd_float4x4(P, Q, R, S)
     }
 
 //MARK: -

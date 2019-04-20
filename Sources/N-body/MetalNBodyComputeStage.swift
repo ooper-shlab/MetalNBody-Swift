@@ -169,10 +169,10 @@ class MetalNBodyComputeStage: NSObject {
             if let parameters = newValue {
                 _parameters = parameters
                 
-                let nSoftening = parameters[kNBodySoftening] as! Float
+                let nSoftening = (parameters[kNBodySoftening] as! NSNumber).floatValue
                 
-                m_HostPrefs.timestep     = parameters[kNBodyTimestep] as! Float
-                m_HostPrefs.damping      = parameters[kNBodyDamping] as! Float
+                m_HostPrefs.timestep     = (parameters[kNBodyTimestep] as! NSNumber).floatValue
+                m_HostPrefs.damping      = (parameters[kNBodyDamping] as! NSNumber).floatValue
                 m_HostPrefs.softeningSqr = nSoftening * nSoftening
                 
                 if mpHostPrefs != nil {mpHostPrefs?.pointee = m_HostPrefs}
@@ -289,18 +289,18 @@ class MetalNBodyComputeStage: NSObject {
     // Setup compute pipeline state and encode
     private func encode(_ cmdBuffer: MTLCommandBuffer?) {
         guard let cmdBuffer = cmdBuffer else {return}
-        let encoder = cmdBuffer.makeComputeCommandEncoder()
+        let encoder = cmdBuffer.makeComputeCommandEncoder()!
         
         encoder.setComputePipelineState(m_Kernel!)
         
-        encoder.setBuffer(m_Position[mnWrite], offset: 0, at: 0)
-        encoder.setBuffer(m_Velocity[mnWrite], offset: 0, at: 1)
-        encoder.setBuffer(m_Position[mnRead], offset: 0, at: 2)
-        encoder.setBuffer(m_Velocity[mnRead], offset: 0, at: 3)
+        encoder.setBuffer(m_Position[mnWrite], offset: 0, index: 0)
+        encoder.setBuffer(m_Velocity[mnWrite], offset: 0, index: 1)
+        encoder.setBuffer(m_Position[mnRead], offset: 0, index: 2)
+        encoder.setBuffer(m_Velocity[mnRead], offset: 0, index: 3)
         
-        encoder.setBuffer(m_Params, offset: 0, at: 4)
+        encoder.setBuffer(m_Params, offset: 0, index: 4)
         
-        encoder.setThreadgroupMemoryLength(mnSize[2], at: 0)
+        encoder.setThreadgroupMemoryLength(mnSize[2], index: 0)
         
         encoder.dispatchThreadgroups(m_WGCount, threadsPerThreadgroup: m_WGSize)
         

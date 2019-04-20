@@ -82,7 +82,7 @@ class AppViewController: UIViewController, MTKViewDelegate {
         assert(device != nil)
         
         // Our view should be a Metal-Kit view
-        mpView = self.view as! MTKView!
+        mpView = self.view as? MTKView
         
         // If this a valid Metal-kit view, then continue
         assert(mpView != nil)

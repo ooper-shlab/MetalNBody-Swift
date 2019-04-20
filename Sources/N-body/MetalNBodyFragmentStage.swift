@@ -143,8 +143,8 @@ class MetalNBodyFragmentStage: NSObject {
     
     // Encode texture and sampler for the fragment stage
     func encode(_ cmdEncoder: MTLRenderCommandEncoder?) {
-        cmdEncoder?.setFragmentTexture(mpGaussian?.texture, at: 0)
-        cmdEncoder?.setFragmentSamplerState(mpSampler?.sampler, at: 0)
+        cmdEncoder?.setFragmentTexture(mpGaussian?.texture, index: 0)
+        cmdEncoder?.setFragmentSamplerState(mpSampler?.sampler, index: 0)
     }
     
 }

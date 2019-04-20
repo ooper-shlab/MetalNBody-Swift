@@ -216,9 +216,9 @@ class MetalGaussianMap : NSObject {
         rowBytes = width * _channels.rawValue
         
         // Upload the Gaussian image into the Metal texture
-        texture.replace(region: m_Region!, mipmapLevel: 0, withBytes: pImage!, bytesPerRow: rowBytes)
+        texture!.replace(region: m_Region!, mipmapLevel: 0, withBytes: pImage!, bytesPerRow: rowBytes)
         
-        pImage!.deallocate(capacity: _channels.rawValue * _texRes * _texRes)
+        pImage!.deallocate()
         
         return true
         

@@ -137,7 +137,7 @@ class MetalNBodyTransform: NSObject {
         self.buffer = buffer
         
         // Liner transformation mvp matrix
-        mpTransform = UnsafeMutableRawPointer(buffer.contents()).assumingMemoryBound(to: matrix_float4x4.self)
+        mpTransform = UnsafeMutableRawPointer(buffer!.contents()).assumingMemoryBound(to: matrix_float4x4.self)
         
         guard mpTransform != nil else {
             NSLog(">> ERROR: Failed to acquire a host pointer to the transformation matrix buffer!")

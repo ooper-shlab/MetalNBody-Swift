@@ -167,7 +167,7 @@ class MetalNBodyPresenter: NSObject {
             
             return false
         }
-        m_Library = device.newDefaultLibrary()
+        m_Library = device.makeDefaultLibrary()
         
         guard m_Library != nil else {
             NSLog(">> ERROR: Failed to instantiate a new default m_Library!")
